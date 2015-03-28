@@ -14,6 +14,8 @@
 		136306391AC6DCA00087F07C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 136306381AC6DCA00087F07C /* Images.xcassets */; };
 		1363063C1AC6DCA00087F07C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1363063A1AC6DCA00087F07C /* LaunchScreen.xib */; };
 		136306481AC6DCA00087F07C /* ProjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 136306471AC6DCA00087F07C /* ProjectTests.m */; };
+		214BE2841AC709E9007C7A47 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 214BE2831AC709E9007C7A47 /* GameViewController.m */; };
+		214BE2871AC70A16007C7A47 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 214BE2861AC70A16007C7A47 /* ChatViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +42,10 @@
 		136306411AC6DCA00087F07C /* ProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		136306461AC6DCA00087F07C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		136306471AC6DCA00087F07C /* ProjectTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProjectTests.m; sourceTree = "<group>"; };
+		214BE2821AC709D1007C7A47 /* GameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
+		214BE2831AC709E9007C7A47 /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
+		214BE2851AC70A03007C7A47 /* ChatViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChatViewController.h; sourceTree = "<group>"; };
+		214BE2861AC70A16007C7A47 /* ChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +88,10 @@
 			isa = PBXGroup;
 			children = (
 				1363062F1AC6DC9F0087F07C /* AppDelegate.h */,
+				214BE2821AC709D1007C7A47 /* GameViewController.h */,
+				214BE2831AC709E9007C7A47 /* GameViewController.m */,
+				214BE2851AC70A03007C7A47 /* ChatViewController.h */,
+				214BE2861AC70A16007C7A47 /* ChatViewController.m */,
 				136306301AC6DC9F0087F07C /* AppDelegate.m */,
 				136306321AC6DC9F0087F07C /* ViewController.h */,
 				136306331AC6DC9F0087F07C /* ViewController.m */,
@@ -219,7 +229,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				214BE2841AC709E9007C7A47 /* GameViewController.m in Sources */,
 				136306341AC6DC9F0087F07C /* ViewController.m in Sources */,
+				214BE2871AC70A16007C7A47 /* ChatViewController.m in Sources */,
 				136306311AC6DC9F0087F07C /* AppDelegate.m in Sources */,
 				1363062E1AC6DC9F0087F07C /* main.m in Sources */,
 			);
@@ -414,6 +426,7 @@
 				1363064D1AC6DCA00087F07C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1363064E1AC6DCA00087F07C /* Build configuration list for PBXNativeTarget "ProjectTests" */ = {
 			isa = XCConfigurationList;
@@ -422,6 +435,7 @@
 				136306501AC6DCA00087F07C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
