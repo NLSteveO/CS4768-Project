@@ -19,6 +19,9 @@
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AXX-5b-Nfj">
                                 <rect key="frame" x="16" y="513" width="512" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="DZf-Tp-fKG"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -45,6 +48,7 @@
                             <constraint firstItem="AXX-5b-Nfj" firstAttribute="leading" secondItem="JIU-PG-N9O" secondAttribute="leadingMargin" id="hqx-eg-8fx"/>
                             <constraint firstItem="b27-ns-IjI" firstAttribute="top" secondItem="3YZ-kd-Rhz" secondAttribute="bottom" constant="8" id="ieM-Ft-L8f"/>
                             <constraint firstItem="b27-ns-IjI" firstAttribute="top" secondItem="AXX-5b-Nfj" secondAttribute="bottom" constant="8" id="nv9-Sg-lFy"/>
+                            <constraint firstItem="3YZ-kd-Rhz" firstAttribute="height" secondItem="AXX-5b-Nfj" secondAttribute="height" id="oTQ-dR-dVh"/>
                             <constraint firstItem="AXX-5b-Nfj" firstAttribute="top" secondItem="9VC-Vz-gL0" secondAttribute="bottom" constant="8" id="zOh-UV-sKX"/>
                         </constraints>
                     </view>
@@ -73,37 +77,50 @@
                                 </state>
                             </button>
                             <glkView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" enableSetNeedsDisplay="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nUb-53-ESK">
-                                <rect key="frame" x="16" y="63" width="568" height="480"/>
+                                <rect key="frame" x="16" y="100" width="568" height="443"/>
                             </glkView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Status: " translatesAutoresizingMaskIntoConstraints="NO" id="hcV-zv-p76">
-                                <rect key="frame" x="212" y="20" width="372" height="35"/>
-                                <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ayf-O4-vdN">
                                 <rect key="frame" x="114" y="20" width="78" height="30"/>
                                 <state key="normal" title="Disconnect">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Status: " translatesAutoresizingMaskIntoConstraints="NO" id="hcV-zv-p76">
+                                <rect key="frame" x="16" y="60" width="568" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" red="0.80392156862745101" green="0.80392156862745101" blue="0.80392156862745101" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="hcV-zv-p76" firstAttribute="trailing" secondItem="mZL-3r-a70" secondAttribute="trailingMargin" id="6sm-eh-XMS"/>
+                            <constraint firstItem="hcV-zv-p76" firstAttribute="height" secondItem="ayf-O4-vdN" secondAttribute="height" id="9lq-h6-BAk"/>
                             <constraint firstItem="hcV-zv-p76" firstAttribute="leading" secondItem="ayf-O4-vdN" secondAttribute="trailing" constant="20" id="BJE-va-fuw"/>
                             <constraint firstItem="nUb-53-ESK" firstAttribute="trailing" secondItem="mZL-3r-a70" secondAttribute="trailingMargin" id="DcD-hr-2Io"/>
+                            <constraint firstItem="nUb-53-ESK" firstAttribute="top" secondItem="hcV-zv-p76" secondAttribute="bottom" constant="10" id="FAL-Jt-wkp"/>
                             <constraint firstItem="nUb-53-ESK" firstAttribute="leading" secondItem="mZL-3r-a70" secondAttribute="leadingMargin" id="GPf-W6-0uC"/>
                             <constraint firstItem="yLH-w3-W1j" firstAttribute="leading" secondItem="mZL-3r-a70" secondAttribute="leadingMargin" id="IPc-ZW-wuc"/>
                             <constraint firstItem="nUb-53-ESK" firstAttribute="top" secondItem="hcV-zv-p76" secondAttribute="bottom" constant="8" id="Pqz-GG-y7t"/>
                             <constraint firstItem="ayf-O4-vdN" firstAttribute="leading" secondItem="yLH-w3-W1j" secondAttribute="trailing" constant="20" id="Tpb-wF-21d"/>
                             <constraint firstItem="0kN-rM-Agy" firstAttribute="top" secondItem="nUb-53-ESK" secondAttribute="bottom" constant="8" id="Uzm-hk-u68"/>
-                            <constraint firstItem="nUb-53-ESK" firstAttribute="top" secondItem="hpo-84-lAw" secondAttribute="bottom" constant="43" id="a3G-hR-DeL"/>
+                            <constraint firstItem="hcV-zv-p76" firstAttribute="height" secondItem="yLH-w3-W1j" secondAttribute="height" id="YfH-pM-Wnf"/>
+                            <constraint firstItem="hcV-zv-p76" firstAttribute="leading" secondItem="mZL-3r-a70" secondAttribute="leadingMargin" id="d6S-3z-myx"/>
                             <constraint firstItem="yLH-w3-W1j" firstAttribute="top" secondItem="hpo-84-lAw" secondAttribute="bottom" id="goN-yE-FJ2"/>
+                            <constraint firstItem="hcV-zv-p76" firstAttribute="top" secondItem="ayf-O4-vdN" secondAttribute="bottom" constant="10" id="iH6-b7-Qnf"/>
                             <constraint firstItem="hcV-zv-p76" firstAttribute="trailing" secondItem="mZL-3r-a70" secondAttribute="trailingMargin" id="q6Q-2D-ont"/>
                             <constraint firstItem="ayf-O4-vdN" firstAttribute="top" secondItem="yLH-w3-W1j" secondAttribute="top" id="rVR-Dx-i0g"/>
                             <constraint firstItem="ayf-O4-vdN" firstAttribute="width" secondItem="yLH-w3-W1j" secondAttribute="width" id="vj0-XF-Tek"/>
                             <constraint firstItem="hcV-zv-p76" firstAttribute="top" secondItem="hpo-84-lAw" secondAttribute="bottom" id="yPH-cr-Xax"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="BJE-va-fuw"/>
+                                <exclude reference="q6Q-2D-ont"/>
+                                <exclude reference="yPH-cr-Xax"/>
+                                <exclude reference="Pqz-GG-y7t"/>
+                            </mask>
+                        </variation>
                     </view>
                     <tabBarItem key="tabBarItem" title="Game" id="AJf-XC-LyA"/>
                 </viewController>
