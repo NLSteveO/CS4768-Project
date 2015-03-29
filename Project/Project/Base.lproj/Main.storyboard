@@ -34,7 +34,7 @@
                                     <action selector="sendButtonTapped:" destination="jk0-Zs-oBm" eventType="touchUpInside" id="weE-b0-nmq"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9VC-Vz-gL0">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9VC-Vz-gL0">
                                 <rect key="frame" x="16" y="20" width="568" height="485"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
