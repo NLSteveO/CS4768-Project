@@ -6,8 +6,4 @@
 //  Copyright (c) 2015 NLSteveO. All rights reserved.
 //
 
-#ifndef Project_GameViewController_h
-#define Project_GameViewController_h
-
-
-#endif
+#define SERVICE_TYPE @"Tic-Tac-Toe"

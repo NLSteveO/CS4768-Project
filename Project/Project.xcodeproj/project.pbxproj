@@ -88,11 +88,11 @@
 			isa = PBXGroup;
 			children = (
 				1363062F1AC6DC9F0087F07C /* AppDelegate.h */,
+				136306301AC6DC9F0087F07C /* AppDelegate.m */,
 				214BE2821AC709D1007C7A47 /* GameViewController.h */,
 				214BE2831AC709E9007C7A47 /* GameViewController.m */,
 				214BE2851AC70A03007C7A47 /* ChatViewController.h */,
 				214BE2861AC70A16007C7A47 /* ChatViewController.m */,
-				136306301AC6DC9F0087F07C /* AppDelegate.m */,
 				136306321AC6DC9F0087F07C /* ViewController.h */,
 				136306331AC6DC9F0087F07C /* ViewController.m */,
 				136306351AC6DC9F0087F07C /* Main.storyboard */,

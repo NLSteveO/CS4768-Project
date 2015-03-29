@@ -6,8 +6,15 @@
 //  Copyright (c) 2015 NLSteveO. All rights reserved.
 //
 
-#ifndef Project_ChatViewController_h
-#define Project_ChatViewController_h
+#import <UIKit/UIKit.h>
+#import <MultipeerConnectivity/MultipeerConnectivity.h>
+#import <AVFoundation/AVAudioSession.h>
+#import <GameKit/GKPublicProtocols.h>
 
+#define SERVICE_TYPE @"Tic-Tac-Toe"
 
-#endif
+extern MCSession *session;  // session declared globally here. import header file to use in other classes
+
+@interface ChatViewController : UIViewController <UITextFieldDelegate,MCSessionDelegate, MCBrowserViewControllerDelegate>
+
+@end
