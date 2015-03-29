@@ -15,20 +15,11 @@
 }
 
 @property (weak, nonatomic) IBOutlet UITextField *textInput;
-@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 @property (weak, nonatomic) IBOutlet UITextView *textView;
-
-@property (weak, nonatomic) IBOutlet UIButton *disconnectButton;
-@property (weak, nonatomic) IBOutlet UIButton *browseButton;
 @property (weak, nonatomic) IBOutlet UIButton *sendButton;
 
-@property (strong, nonatomic) MCAdvertiserAssistant *assistant;
-@property (strong, nonatomic) MCBrowserViewController *browserVC;
-
 - (BOOL)textFieldShouldReturn:(UITextField *)textField;
-- (IBAction)browseButtonTapped:(UIButton *)sender;
 - (IBAction)sendButtonTapped:(UIButton *)sender;
-- (IBAction)disconnectButtonTapped:(UIButton *)sender;
 
 - (void)setUIToNotConnectedState;
 - (void)setUIToConnectedState;
@@ -60,15 +51,11 @@ MCSession *session;
     MCPeerID *myPeerID = [[MCPeerID alloc] initWithDisplayName:[[UIDevice currentDevice] name]];
     session = [[MCSession alloc] initWithPeer:myPeerID];
     session.delegate = self;
-    
+    /*
     // Start advertising
     self.assistant = [[MCAdvertiserAssistant alloc] initWithServiceType:SERVICE_TYPE discoveryInfo:nil session:session];
     [self.assistant start];
-    
-    // Prepare audio chat
-    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-    [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
-    [audioSession setActive:YES error:nil];
+    */
 }
 
 - (void)didReceiveMemoryWarning {
@@ -110,14 +97,6 @@ MCSession *session;
     return;
 }
 
-#pragma mark
-#pragma mark Event handlers
-- (IBAction)browseButtonTapped:(UIButton *)sender {
-    self.browserVC = [[MCBrowserViewController alloc] initWithServiceType:SERVICE_TYPE session:session];
-    self.browserVC.delegate = self;
-    [self presentViewController:self.browserVC animated:YES completion:nil];
-}
-
 - (IBAction)sendButtonTapped:(UIButton *)sender {
     NSArray *peerIDs = session.connectedPeers;
     NSString *str = self.textInput.text;
@@ -130,11 +109,6 @@ MCSession *session;
     self.textView.text = [NSString stringWithFormat:@"%@\n> %@", self.textView.text, str];
 }
 
-- (IBAction)disconnectButtonTapped:(UIButton *)sender {
-    [session disconnect];
-    [self setUIToNotConnectedState];
-}
-
 #pragma mark
 #pragma mark <MCSessionDelegate> methods
 // Remote peer changed state
@@ -143,11 +117,11 @@ MCSession *session;
     NSString *str = [NSString stringWithFormat:@"Status: %@", peerID.displayName];
     if (state == MCSessionStateConnected)
     {
-        self.statusLabel.text = [str stringByAppendingString:@" connected"];
+        //self.statusLabel.text = [str stringByAppendingString:@" connected"];
         [self setUIToConnectedState];
     }
-    else if (state == MCSessionStateNotConnected)
-        self.statusLabel.text = [str stringByAppendingString:@" not connected"];
+    else if (state == MCSessionStateNotConnected) {}
+        //self.statusLabel.text = [str stringByAppendingString:@" not connected"];
 }
 
 // Received data from remote peer
@@ -185,6 +159,7 @@ MCSession *session;
     
 }
 
+/*
 #pragma mark
 #pragma mark <MCBrowserViewControllerDelegate> methods
 
@@ -197,6 +172,7 @@ MCSession *session;
 {
     [browserViewController dismissViewControllerAnimated:YES completion:nil];
 }
+*/
 
 - (NSString *)participantID
 {
@@ -209,15 +185,11 @@ MCSession *session;
 - (void)setUIToNotConnectedState
 {
     self.sendButton.enabled = NO;
-    self.disconnectButton.enabled = NO;
-    self.browseButton.enabled = YES;
 }
 
 - (void)setUIToConnectedState
 {
     self.sendButton.enabled = YES;
-    self.disconnectButton.enabled = YES;
-    self.browseButton.enabled = NO;
 }
 
 - (void)resetView

@@ -83,6 +83,9 @@
                                 <state key="normal" title="Connect">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="browseButtonTapped:" destination="UVX-Vy-fUe" eventType="touchUpInside" id="QgS-tk-zI9"/>
+                                </connections>
                             </button>
                             <glkView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" enableSetNeedsDisplay="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nUb-53-ESK">
                                 <rect key="frame" x="16" y="100" width="568" height="443"/>
@@ -92,6 +95,9 @@
                                 <state key="normal" title="Disconnect">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="disconnectButtonTapped:" destination="UVX-Vy-fUe" eventType="touchUpInside" id="F2v-zz-kri"/>
+                                </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Status: " translatesAutoresizingMaskIntoConstraints="NO" id="hcV-zv-p76">
                                 <rect key="frame" x="16" y="60" width="568" height="30"/>
@@ -131,6 +137,12 @@
                         </variation>
                     </view>
                     <tabBarItem key="tabBarItem" title="Game" id="AJf-XC-LyA"/>
+                    <connections>
+                        <outlet property="browseButton" destination="yLH-w3-W1j" id="QpT-nJ-wjn"/>
+                        <outlet property="disconnectButton" destination="ayf-O4-vdN" id="6jd-yh-ovn"/>
+                        <outlet property="statusTextVew" destination="hcV-zv-p76" id="usv-AQ-yZj"/>
+                        <outlet property="statusView" destination="hcV-zv-p76" id="Ha8-iH-eoH"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qgn-nN-ksI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
