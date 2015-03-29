@@ -2,25 +2,25 @@
 //  GameViewController.m
 //  Project
 //
-//  Created by Ryan Martin on 2015-03-28.
-//  Copyright (c) 2015 NLSteveO. All rights reserved.
+//  Created by Stephen Douglas O'Keefe & Ryan Martin on 2015-03-28.
+//  Copyright (c) 2015 NLSteveO & Ryan Martin. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "GameViewController.h"
 #import "ChatViewController.h"
-#import "GLKit/GLKit.h"
 
-@interface GameViewController : GLKViewController
+@interface GameViewController() {
+    
+}
 
+@property (weak, nonatomic) IBOutlet UIButton *connectButton;
 @property (weak, nonatomic) IBOutlet UIButton *disconnectButton;
-//@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
-@property (weak, nonatomic) IBOutlet UITextView *statusView;
+@property (weak, nonatomic) IBOutlet UITextView *statusLabel;
 
-@property (weak, nonatomic) IBOutlet UIButton *browseButton;
 @property (strong, nonatomic) MCAdvertiserAssistant *assistant;
 @property (strong, nonatomic) MCBrowserViewController *browserVC;
 
-- (IBAction)browseButtonTapped:(UIButton *)sender;
+- (IBAction)connectButtonTapped:(UIButton *)sender;
 - (IBAction)disconnectButtonTapped:(UIButton *)sender;
 
 @end
@@ -32,6 +32,10 @@ MCSession *session;
 -(void) viewDidLoad {
     
     //do we need session stuff here?
+    // Prepare session
+    MCPeerID *myPeerID = [[MCPeerID alloc] initWithDisplayName:[[UIDevice currentDevice] name]];
+    session = [[MCSession alloc] initWithPeer:myPeerID];
+    session.delegate = self;
     // Start advertising
     self.assistant = [[MCAdvertiserAssistant alloc] initWithServiceType:SERVICE_TYPE discoveryInfo:nil session:session];
     [self.assistant start];
@@ -44,15 +48,29 @@ MCSession *session;
 
 #pragma mark
 #pragma mark Event handlers
-- (IBAction)browseButtonTapped:(UIButton *)sender {
+- (IBAction)connectButtonTapped:(UIButton *)sender {
     self.browserVC = [[MCBrowserViewController alloc] initWithServiceType:SERVICE_TYPE session:session];
     self.browserVC.delegate = self;
     [self presentViewController:self.browserVC animated:YES completion:nil];
 }
 
+
 - (IBAction)disconnectButtonTapped:(UIButton *)sender {
     [session disconnect];
     [self setUIToNotConnectedState];
+}
+
+#pragma mark
+#pragma mark <MCBrowserViewControllerDelegate> methods
+
+- (void)browserViewControllerDidFinish:(MCBrowserViewController *)browserViewController
+{
+    [browserViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)browserViewControllerWasCancelled:(MCBrowserViewController *)browserViewController
+{
+    [browserViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark
@@ -63,25 +81,25 @@ MCSession *session;
     NSString *str = [NSString stringWithFormat:@"Status: %@", peerID.displayName];
     if (state == MCSessionStateConnected)
     {
-        self.statusView.text = [str stringByAppendingString:@" connected"];
+        self.statusLabel.text = [str stringByAppendingString:@" connected"];
         [self setUIToConnectedState];
     }
     else if (state == MCSessionStateNotConnected)
-        self.statusView.text = [str stringByAppendingString:@" not connected"];
+        self.statusLabel.text = [str stringByAppendingString:@" not connected"];
 }
 
 - (void)setUIToNotConnectedState
 {
     //self.sendButton.enabled = NO;
     self.disconnectButton.enabled = NO;
-    self.browseButton.enabled = YES;
+    self.connectButton.enabled = YES;
 }
 
 - (void)setUIToConnectedState
 {
     //self.sendButton.enabled = YES;
     self.disconnectButton.enabled = YES;
-    self.browseButton.enabled = NO;
+    self.connectButton.enabled = NO;
 }
 
 @end

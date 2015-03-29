@@ -2,8 +2,8 @@
 //  ChatViewController.m
 //  Project
 //
-//  Created by Ryan Martin on 2015-03-28.
-//  Copyright (c) 2015 NLSteveO. All rights reserved.
+//  Created by Stephen Douglas O'Keefe & Ryan Martin on 2015-03-28.
+//  Copyright (c) 2015 NLSteveO & Ryan Martin. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -35,7 +35,6 @@ MCSession *session;
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.textInput.delegate = self;
-    [self setUIToNotConnectedState];
     originalViewFrame = self.view.frame;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -46,16 +45,6 @@ MCSession *session;
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
-    
-    // Prepare session
-    MCPeerID *myPeerID = [[MCPeerID alloc] initWithDisplayName:[[UIDevice currentDevice] name]];
-    session = [[MCSession alloc] initWithPeer:myPeerID];
-    session.delegate = self;
-    /*
-    // Start advertising
-    self.assistant = [[MCAdvertiserAssistant alloc] initWithServiceType:SERVICE_TYPE discoveryInfo:nil session:session];
-    [self.assistant start];
-    */
 }
 
 - (void)didReceiveMemoryWarning {
@@ -98,31 +87,21 @@ MCSession *session;
 }
 
 - (IBAction)sendButtonTapped:(UIButton *)sender {
-    NSArray *peerIDs = session.connectedPeers;
-    NSString *str = self.textInput.text;
-    [session sendData:[str dataUsingEncoding:NSASCIIStringEncoding]
+    if ([session.connectedPeers count] > 0) {
+        NSArray *peerIDs = session.connectedPeers;
+        NSString *str = self.textInput.text;
+        [session sendData:[str dataUsingEncoding:NSASCIIStringEncoding]
                    toPeers:peerIDs
                   withMode:MCSessionSendDataReliable error:nil];
-    self.textInput.text = @"";
-    [self.textInput resignFirstResponder];
-    // echo in the local text view
-    self.textView.text = [NSString stringWithFormat:@"%@\n> %@", self.textView.text, str];
+        self.textInput.text = @"";
+        [self.textInput resignFirstResponder];
+        // echo in the local text view
+        self.textView.text = [NSString stringWithFormat:@"%@\n> %@", self.textView.text, str];
+    }
 }
 
 #pragma mark
 #pragma mark <MCSessionDelegate> methods
-// Remote peer changed state
-- (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state
-{
-    NSString *str = [NSString stringWithFormat:@"Status: %@", peerID.displayName];
-    if (state == MCSessionStateConnected)
-    {
-        //self.statusLabel.text = [str stringByAppendingString:@" connected"];
-        [self setUIToConnectedState];
-    }
-    else if (state == MCSessionStateNotConnected) {}
-        //self.statusLabel.text = [str stringByAppendingString:@" not connected"];
-}
 
 // Received data from remote peer
 - (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID
@@ -159,21 +138,6 @@ MCSession *session;
     
 }
 
-/*
-#pragma mark
-#pragma mark <MCBrowserViewControllerDelegate> methods
-
-- (void)browserViewControllerDidFinish:(MCBrowserViewController *)browserViewController
-{
-    [browserViewController dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)browserViewControllerWasCancelled:(MCBrowserViewController *)browserViewController
-{
-    [browserViewController dismissViewControllerAnimated:YES completion:nil];
-}
-*/
-
 - (NSString *)participantID
 {
     return session.myPeerID.displayName;
@@ -181,16 +145,6 @@ MCSession *session;
 
 #pragma mark
 #pragma mark helpers
-
-- (void)setUIToNotConnectedState
-{
-    self.sendButton.enabled = NO;
-}
-
-- (void)setUIToConnectedState
-{
-    self.sendButton.enabled = YES;
-}
 
 - (void)resetView
 {
