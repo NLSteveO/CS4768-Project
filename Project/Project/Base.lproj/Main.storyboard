@@ -164,7 +164,33 @@
                     <view key="view" contentMode="scaleToFill" id="VF8-7o-NAM">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Ryan &amp; Steve's Tic-Tac-Toe" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IIN-lA-DCL">
+                                <rect key="frame" x="16" y="174" width="568" height="24"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="fBC-v2-Ff7">
+                                <rect key="frame" x="16" y="298" width="568" height="128"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="nkH-ez-HdP"/>
+                                </constraints>
+                                <string key="text">To start a game head over to the chat tab and make a connection with another player. Once you are connected you can say hi in the chat or head over to the game tab and start playing. Have fun!</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="IIN-lA-DCL" firstAttribute="trailing" secondItem="VF8-7o-NAM" secondAttribute="trailingMargin" id="2VM-Yw-oW9"/>
+                            <constraint firstItem="fBC-v2-Ff7" firstAttribute="leading" secondItem="VF8-7o-NAM" secondAttribute="leadingMargin" id="EpT-uX-gjS"/>
+                            <constraint firstItem="fBC-v2-Ff7" firstAttribute="trailing" secondItem="VF8-7o-NAM" secondAttribute="trailingMargin" id="Vm5-dF-N9K"/>
+                            <constraint firstItem="fBC-v2-Ff7" firstAttribute="top" secondItem="IIN-lA-DCL" secondAttribute="bottom" constant="100" id="dHZ-hS-LBc"/>
+                            <constraint firstItem="IIN-lA-DCL" firstAttribute="leading" secondItem="VF8-7o-NAM" secondAttribute="leadingMargin" id="lgw-wI-ogn"/>
+                            <constraint firstItem="cI2-i2-uzU" firstAttribute="top" secondItem="fBC-v2-Ff7" secondAttribute="bottom" constant="125" id="uPW-re-ecD"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Welcome" id="IWb-nM-naj"/>
                 </viewController>
