@@ -29,7 +29,7 @@
                             <outlet property="delegate" destination="bzF-Cq-euz" id="a1H-cg-j2C"/>
                         </connections>
                     </glkView>
-                    <tabBarItem key="tabBarItem" title="Game" id="SZM-zW-83x"/>
+                    <tabBarItem key="tabBarItem" tag="102" title="Game" image="play.png" id="SZM-zW-83x"/>
                 </glkViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Am-y1-UAY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -128,7 +128,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Chat" id="sZb-zi-SaI"/>
+                    <tabBarItem key="tabBarItem" tag="101" title="Chat" image="speech_bubble.png" id="sZb-zi-SaI"/>
                     <connections>
                         <outlet property="connectButton" destination="yLH-w3-W1j" id="xK2-1q-E4y"/>
                         <outlet property="disconnectButton" destination="ayf-O4-vdN" id="jiv-eD-BRA"/>
@@ -201,11 +201,16 @@
                             <constraint firstItem="cI2-i2-uzU" firstAttribute="top" secondItem="fBC-v2-Ff7" secondAttribute="bottom" constant="125" id="uPW-re-ecD"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Welcome" id="IWb-nM-naj"/>
+                    <tabBarItem key="tabBarItem" tag="100" title="Welcome" image="star.png" id="IWb-nM-naj"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M9a-bh-fpN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-591" y="749"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="play.png" width="26" height="26"/>
+        <image name="speech_bubble.png" width="26" height="26"/>
+        <image name="star.png" width="26" height="26"/>
+    </resources>
 </document>

@@ -21,6 +21,12 @@
 		13FF701A1AC8B1760073E4E9 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13FF70191AC8B1760073E4E9 /* OpenGLES.framework */; };
 		214BE2841AC709E9007C7A47 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 214BE2831AC709E9007C7A47 /* GameViewController.m */; };
 		214BE2871AC70A16007C7A47 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 214BE2861AC70A16007C7A47 /* ChatViewController.m */; };
+		215F7E8D1AC9620900AE8A19 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = 215F7E871AC9620900AE8A19 /* play.png */; };
+		215F7E8E1AC9620900AE8A19 /* play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 215F7E881AC9620900AE8A19 /* play@2x.png */; };
+		215F7E8F1AC9620900AE8A19 /* speech_bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 215F7E891AC9620900AE8A19 /* speech_bubble.png */; };
+		215F7E901AC9620900AE8A19 /* speech_bubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 215F7E8A1AC9620900AE8A19 /* speech_bubble@2x.png */; };
+		215F7E911AC9620900AE8A19 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 215F7E8B1AC9620900AE8A19 /* star.png */; };
+		215F7E921AC9620900AE8A19 /* star@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 215F7E8C1AC9620900AE8A19 /* star@2x.png */; };
 		21A98DBF1AC8D381003BD6DE /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A98DBE1AC8D381003BD6DE /* WelcomeViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +62,12 @@
 		214BE2831AC709E9007C7A47 /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
 		214BE2851AC70A03007C7A47 /* ChatViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChatViewController.h; sourceTree = "<group>"; };
 		214BE2861AC70A16007C7A47 /* ChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatViewController.m; sourceTree = "<group>"; };
+		215F7E871AC9620900AE8A19 /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play.png; sourceTree = "<group>"; };
+		215F7E881AC9620900AE8A19 /* play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play@2x.png"; sourceTree = "<group>"; };
+		215F7E891AC9620900AE8A19 /* speech_bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = speech_bubble.png; sourceTree = "<group>"; };
+		215F7E8A1AC9620900AE8A19 /* speech_bubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "speech_bubble@2x.png"; sourceTree = "<group>"; };
+		215F7E8B1AC9620900AE8A19 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
+		215F7E8C1AC9620900AE8A19 /* star@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star@2x.png"; sourceTree = "<group>"; };
 		21A98DBD1AC8D381003BD6DE /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
 		21A98DBE1AC8D381003BD6DE /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -105,6 +117,7 @@
 		1363062A1AC6DC9F0087F07C /* Project */ = {
 			isa = PBXGroup;
 			children = (
+				215F7E861AC9620900AE8A19 /* Resources */,
 				1363062F1AC6DC9F0087F07C /* AppDelegate.h */,
 				136306301AC6DC9F0087F07C /* AppDelegate.m */,
 				214BE2821AC709D1007C7A47 /* GameViewController.h */,
@@ -151,6 +164,19 @@
 				136306461AC6DCA00087F07C /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		215F7E861AC9620900AE8A19 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				215F7E871AC9620900AE8A19 /* play.png */,
+				215F7E881AC9620900AE8A19 /* play@2x.png */,
+				215F7E891AC9620900AE8A19 /* speech_bubble.png */,
+				215F7E8A1AC9620900AE8A19 /* speech_bubble@2x.png */,
+				215F7E8B1AC9620900AE8A19 /* star.png */,
+				215F7E8C1AC9620900AE8A19 /* star@2x.png */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,9 +259,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				215F7E8E1AC9620900AE8A19 /* play@2x.png in Resources */,
 				136306371AC6DC9F0087F07C /* Main.storyboard in Resources */,
+				215F7E8D1AC9620900AE8A19 /* play.png in Resources */,
 				1363063C1AC6DCA00087F07C /* LaunchScreen.xib in Resources */,
 				136306391AC6DCA00087F07C /* Images.xcassets in Resources */,
+				215F7E911AC9620900AE8A19 /* star.png in Resources */,
+				215F7E921AC9620900AE8A19 /* star@2x.png in Resources */,
+				215F7E901AC9620900AE8A19 /* speech_bubble@2x.png in Resources */,
+				215F7E8F1AC9620900AE8A19 /* speech_bubble.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
