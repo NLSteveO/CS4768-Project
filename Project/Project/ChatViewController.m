@@ -163,6 +163,7 @@ MCSession *session;
         dispatch_async(dispatch_get_main_queue(), ^{
             self.statusLabel.text = [str stringByAppendingString:@" not connected"];
             [self setUIToNotConnectedState];
+            [self clearText];
         });
     }
 }
