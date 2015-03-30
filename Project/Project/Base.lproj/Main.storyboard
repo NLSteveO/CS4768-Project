@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AXX-5b-Nfj">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AXX-5b-Nfj">
                                 <rect key="frame" x="16" y="513" width="512" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="DZf-Tp-fKG"/>
@@ -25,8 +25,11 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3YZ-kd-Rhz">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3YZ-kd-Rhz">
                                 <rect key="frame" x="548" y="513" width="36" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="36" id="p6x-v6-cOh"/>
+                                </constraints>
                                 <state key="normal" title="Send">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -96,42 +99,32 @@
                                     <action selector="disconnectButtonTapped:" destination="UVX-Vy-fUe" eventType="touchUpInside" id="F2v-zz-kri"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Status: " translatesAutoresizingMaskIntoConstraints="NO" id="hcV-zv-p76">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zMU-So-dWw">
                                 <rect key="frame" x="16" y="60" width="568" height="30"/>
-                                <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.80392156862745101" green="0.80392156862745101" blue="0.80392156862745101" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="hcV-zv-p76" firstAttribute="trailing" secondItem="mZL-3r-a70" secondAttribute="trailingMargin" id="6sm-eh-XMS"/>
-                            <constraint firstItem="hcV-zv-p76" firstAttribute="height" secondItem="ayf-O4-vdN" secondAttribute="height" id="9lq-h6-BAk"/>
-                            <constraint firstItem="hcV-zv-p76" firstAttribute="leading" secondItem="ayf-O4-vdN" secondAttribute="trailing" constant="20" id="BJE-va-fuw"/>
+                            <constraint firstItem="zMU-So-dWw" firstAttribute="top" secondItem="ayf-O4-vdN" secondAttribute="bottom" constant="10" id="2Dn-Cz-9ij"/>
                             <constraint firstItem="yLH-w3-W1j" firstAttribute="leading" secondItem="mZL-3r-a70" secondAttribute="leadingMargin" id="IPc-ZW-wuc"/>
+                            <constraint firstItem="yLH-w3-W1j" firstAttribute="height" secondItem="zMU-So-dWw" secondAttribute="height" id="LCc-CH-AVd"/>
+                            <constraint firstItem="zMU-So-dWw" firstAttribute="leading" secondItem="mZL-3r-a70" secondAttribute="leadingMargin" id="Ldj-kk-Y6M"/>
                             <constraint firstItem="ayf-O4-vdN" firstAttribute="leading" secondItem="yLH-w3-W1j" secondAttribute="trailing" constant="20" id="Tpb-wF-21d"/>
-                            <constraint firstItem="hcV-zv-p76" firstAttribute="height" secondItem="yLH-w3-W1j" secondAttribute="height" id="YfH-pM-Wnf"/>
-                            <constraint firstItem="hcV-zv-p76" firstAttribute="leading" secondItem="mZL-3r-a70" secondAttribute="leadingMargin" id="d6S-3z-myx"/>
+                            <constraint firstItem="zMU-So-dWw" firstAttribute="trailing" secondItem="mZL-3r-a70" secondAttribute="trailingMargin" id="V5Y-CJ-MmQ"/>
+                            <constraint firstItem="yLH-w3-W1j" firstAttribute="height" secondItem="ayf-O4-vdN" secondAttribute="height" id="f9f-8h-ng2"/>
                             <constraint firstItem="yLH-w3-W1j" firstAttribute="top" secondItem="hpo-84-lAw" secondAttribute="bottom" id="goN-yE-FJ2"/>
-                            <constraint firstItem="hcV-zv-p76" firstAttribute="top" secondItem="ayf-O4-vdN" secondAttribute="bottom" constant="10" id="iH6-b7-Qnf"/>
-                            <constraint firstItem="hcV-zv-p76" firstAttribute="trailing" secondItem="mZL-3r-a70" secondAttribute="trailingMargin" id="q6Q-2D-ont"/>
                             <constraint firstItem="ayf-O4-vdN" firstAttribute="top" secondItem="yLH-w3-W1j" secondAttribute="top" id="rVR-Dx-i0g"/>
                             <constraint firstItem="ayf-O4-vdN" firstAttribute="width" secondItem="yLH-w3-W1j" secondAttribute="width" id="vj0-XF-Tek"/>
-                            <constraint firstItem="hcV-zv-p76" firstAttribute="top" secondItem="hpo-84-lAw" secondAttribute="bottom" id="yPH-cr-Xax"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="BJE-va-fuw"/>
-                                <exclude reference="q6Q-2D-ont"/>
-                                <exclude reference="yPH-cr-Xax"/>
-                            </mask>
-                        </variation>
                     </view>
                     <tabBarItem key="tabBarItem" title="Game" id="AJf-XC-LyA"/>
                     <connections>
                         <outlet property="connectButton" destination="yLH-w3-W1j" id="sSC-x2-t4W"/>
                         <outlet property="disconnectButton" destination="ayf-O4-vdN" id="6jd-yh-ovn"/>
-                        <outlet property="statusLabel" destination="hcV-zv-p76" id="sUP-ov-UZS"/>
+                        <outlet property="statusLabel" destination="zMU-So-dWw" id="0wc-tv-ZcS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qgn-nN-ksI" userLabel="First Responder" sceneMemberID="firstResponder"/>

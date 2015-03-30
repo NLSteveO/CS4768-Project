@@ -15,7 +15,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *connectButton;
 @property (weak, nonatomic) IBOutlet UIButton *disconnectButton;
-@property (weak, nonatomic) IBOutlet UITextView *statusLabel;
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 
 @property (strong, nonatomic) MCAdvertiserAssistant *assistant;
 @property (strong, nonatomic) MCBrowserViewController *browserVC;
