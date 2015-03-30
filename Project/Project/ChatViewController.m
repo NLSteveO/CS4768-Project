@@ -32,6 +32,7 @@
 - (void)setUIToNotConnectedState;
 - (void)setUIToConnectedState;
 - (void)resetView;
+- (void)clearText;
 
 @end
 
@@ -125,6 +126,11 @@ MCSession *session;
 - (IBAction)disconnectButtonTapped:(UIButton *)sender {
     [session disconnect];
     [self setUIToNotConnectedState];
+    [self clearText];
+}
+
+- (void)clearText {
+    self.textView.text = @"";
 }
 
 #pragma mark
@@ -148,11 +154,17 @@ MCSession *session;
     NSString *str = [NSString stringWithFormat:@"Status: %@", peerID.displayName];
     if (state == MCSessionStateConnected)
     {
-        self.statusLabel.text = [str stringByAppendingString:@" connected"];
-        [self setUIToConnectedState];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.statusLabel.text = [str stringByAppendingString:@" connected"];
+            [self setUIToConnectedState];
+        });
     }
-    else if (state == MCSessionStateNotConnected)
-        self.statusLabel.text = [str stringByAppendingString:@" not connected"];
+    else if (state == MCSessionStateNotConnected) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.statusLabel.text = [str stringByAppendingString:@" not connected"];
+            [self setUIToNotConnectedState];
+        });
+    }
 }
 
 // Received data from remote peer
@@ -199,14 +211,14 @@ MCSession *session;
 #pragma mark helpers
 - (void)setUIToNotConnectedState
 {
-    //self.sendButton.enabled = NO;
+    self.sendButton.enabled = NO;
     self.disconnectButton.enabled = NO;
     self.connectButton.enabled = YES;
 }
 
 - (void)setUIToConnectedState
 {
-    //self.sendButton.enabled = YES;
+    self.sendButton.enabled = YES;
     self.disconnectButton.enabled = YES;
     self.connectButton.enabled = NO;
 }
