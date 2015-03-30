@@ -1,5 +1,5 @@
 //
-//  GameViewController.h
+//  WelcomeViewController.m
 //  Project
 //
 //  Created by Stephen Douglas O'Keefe & Ryan Martin on 2015-03-28.
@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <GLKit/GLKit.h>
 
-@interface GameViewController : GLKViewController //????
+@interface WelcomeViewController : UIViewController
 
 @end

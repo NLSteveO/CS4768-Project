@@ -17,9 +17,17 @@
 @property (weak, nonatomic) IBOutlet UITextField *textInput;
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (weak, nonatomic) IBOutlet UIButton *sendButton;
+@property (weak, nonatomic) IBOutlet UIButton *connectButton;
+@property (weak, nonatomic) IBOutlet UIButton *disconnectButton;
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
+
+@property (strong, nonatomic) MCAdvertiserAssistant *assistant;
+@property (strong, nonatomic) MCBrowserViewController *browserVC;
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField;
 - (IBAction)sendButtonTapped:(UIButton *)sender;
+- (IBAction)connectButtonTapped:(UIButton *)sender;
+- (IBAction)disconnectButtonTapped:(UIButton *)sender;
 
 - (void)setUIToNotConnectedState;
 - (void)setUIToConnectedState;
@@ -36,6 +44,14 @@ MCSession *session;
     // Do any additional setup after loading the view, typically from a nib.
     self.textInput.delegate = self;
     originalViewFrame = self.view.frame;
+    
+    // Prepare session
+    MCPeerID *myPeerID = [[MCPeerID alloc] initWithDisplayName:[[UIDevice currentDevice] name]];
+    session = [[MCSession alloc] initWithPeer:myPeerID];
+    session.delegate = self;
+    // Start advertising
+    self.assistant = [[MCAdvertiserAssistant alloc] initWithServiceType:SERVICE_TYPE discoveryInfo:nil session:session];
+    [self.assistant start];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
@@ -100,8 +116,44 @@ MCSession *session;
     }
 }
 
+- (IBAction)connectButtonTapped:(UIButton *)sender {
+    self.browserVC = [[MCBrowserViewController alloc] initWithServiceType:SERVICE_TYPE session:session];
+    self.browserVC.delegate = self;
+    [self presentViewController:self.browserVC animated:YES completion:nil];
+}
+
+- (IBAction)disconnectButtonTapped:(UIButton *)sender {
+    [session disconnect];
+    [self setUIToNotConnectedState];
+}
+
+#pragma mark
+#pragma mark <MCBrowserViewControllerDelegate> methods
+
+- (void)browserViewControllerDidFinish:(MCBrowserViewController *)browserViewController
+{
+    [browserViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)browserViewControllerWasCancelled:(MCBrowserViewController *)browserViewController
+{
+    [browserViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark
 #pragma mark <MCSessionDelegate> methods
+// Remote peer changed state
+- (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state
+{
+    NSString *str = [NSString stringWithFormat:@"Status: %@", peerID.displayName];
+    if (state == MCSessionStateConnected)
+    {
+        self.statusLabel.text = [str stringByAppendingString:@" connected"];
+        [self setUIToConnectedState];
+    }
+    else if (state == MCSessionStateNotConnected)
+        self.statusLabel.text = [str stringByAppendingString:@" not connected"];
+}
 
 // Received data from remote peer
 - (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID
@@ -145,6 +197,19 @@ MCSession *session;
 
 #pragma mark
 #pragma mark helpers
+- (void)setUIToNotConnectedState
+{
+    //self.sendButton.enabled = NO;
+    self.disconnectButton.enabled = NO;
+    self.connectButton.enabled = YES;
+}
+
+- (void)setUIToConnectedState
+{
+    //self.sendButton.enabled = YES;
+    self.disconnectButton.enabled = YES;
+    self.connectButton.enabled = NO;
+}
 
 - (void)resetView
 {

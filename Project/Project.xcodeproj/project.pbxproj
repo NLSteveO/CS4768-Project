@@ -19,6 +19,7 @@
 		13FF70161AC8B1670073E4E9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13FF70151AC8B1670073E4E9 /* Foundation.framework */; };
 		13FF70181AC8B1700073E4E9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13FF70171AC8B1700073E4E9 /* CoreGraphics.framework */; };
 		13FF701A1AC8B1760073E4E9 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13FF70191AC8B1760073E4E9 /* OpenGLES.framework */; };
+		13FF701D1AC8D1FD0073E4E9 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13FF701C1AC8D1FD0073E4E9 /* WelcomeViewController.m */; };
 		214BE2841AC709E9007C7A47 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 214BE2831AC709E9007C7A47 /* GameViewController.m */; };
 		214BE2871AC70A16007C7A47 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 214BE2861AC70A16007C7A47 /* ChatViewController.m */; };
 /* End PBXBuildFile section */
@@ -51,6 +52,8 @@
 		13FF70151AC8B1670073E4E9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		13FF70171AC8B1700073E4E9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		13FF70191AC8B1760073E4E9 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		13FF701B1AC8D1EA0073E4E9 /* WelcomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WelcomeViewController.h; path = "../../../../../../../../Users/labnet/st7/p49sdok/cs 4768/CS4768-Project/Project/Project/WelcomeViewController.h"; sourceTree = "<group>"; };
+		13FF701C1AC8D1FD0073E4E9 /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WelcomeViewController.m; path = "../../../../../../../../Users/labnet/st7/p49sdok/cs 4768/CS4768-Project/Project/Project/WelcomeViewController.m"; sourceTree = "<group>"; };
 		214BE2821AC709D1007C7A47 /* GameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
 		214BE2831AC709E9007C7A47 /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
 		214BE2851AC70A03007C7A47 /* ChatViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChatViewController.h; sourceTree = "<group>"; };
@@ -108,6 +111,8 @@
 				214BE2831AC709E9007C7A47 /* GameViewController.m */,
 				214BE2851AC70A03007C7A47 /* ChatViewController.h */,
 				214BE2861AC70A16007C7A47 /* ChatViewController.m */,
+				13FF701B1AC8D1EA0073E4E9 /* WelcomeViewController.h */,
+				13FF701C1AC8D1FD0073E4E9 /* WelcomeViewController.m */,
 				136306351AC6DC9F0087F07C /* Main.storyboard */,
 				136306381AC6DCA00087F07C /* Images.xcassets */,
 				1363063A1AC6DCA00087F07C /* LaunchScreen.xib */,
@@ -248,6 +253,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13FF701D1AC8D1FD0073E4E9 /* WelcomeViewController.m in Sources */,
 				214BE2841AC709E9007C7A47 /* GameViewController.m in Sources */,
 				214BE2871AC70A16007C7A47 /* ChatViewController.m in Sources */,
 				136306311AC6DC9F0087F07C /* AppDelegate.m in Sources */,
