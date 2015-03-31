@@ -8,19 +8,22 @@
 
 #import "GameViewController.h"
 #import "ChatViewController.h"
+#import "Board.h"
 #import "XPiece.h"
-#import "YPiece.h"
+#import "OPiece.h"
+#import "Ball.h"
 #import <OpenGLES/ES1/glext.h>
 
 @interface GameViewController() {
     
 }
-
 @property (strong, nonatomic) EAGLContext *context;
+@property (strong, nonatomic) NSMutableArray *pieces;
+@property Board *gameBoard;
 
 - (void)setupGL;
 - (void)tearDownGL;
-- (void)setupOrthographicView: (CGSize)size;
+- (void)setupOrthographicView;
 
 @end
 
@@ -36,9 +39,10 @@ int board[3][3] = {
     {0,0,0}
 };  // 3d array for checking whether a board position is free
 
-- (void) viewDidLoad {
-    
+- (void)viewDidLoad
+{
     [super viewDidLoad];
+    
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
     
     if (!self.context) {
@@ -47,12 +51,30 @@ int board[3][3] = {
     
     GLKView *view = (GLKView *)self.view;
     view.context = self.context;
+    view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
+    
+    _pieces = [[NSMutableArray alloc] init];
+    _gameBoard = [[Board alloc] initWithWidth:view.bounds.size.width height:view.bounds.size.height];
+    
+    XPiece *temp = [[XPiece alloc] initWithWidth:0 height:0 xPosition:0 yPosition:0];
+    [_pieces addObject:temp];
+    
     [self setupGL];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)dealloc
+{
+    [self tearDownGL];
     
+    if ([EAGLContext currentContext] == self.context) {
+        [EAGLContext setCurrentContext:nil];
+    }
+}
+
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
+    
     if ([self isViewLoaded] && ([[self view] window] == nil)) {
         self.view = nil;
         
@@ -63,44 +85,37 @@ int board[3][3] = {
         }
         self.context = nil;
     }
+    
     // Dispose of any resources that can be recreated.
 }
 
-- (void)dealloc {
-    
-    [self tearDownGL];
-    
-    if ([EAGLContext currentContext] == self.context) {
-        [EAGLContext setCurrentContext:nil];
-    }
+- (void)update
+{
+    [self setupOrthographicView];
 }
 
-- (void) setupGL {
-    
-    [EAGLContext setCurrentContext:self.context];
-    
-    //XPiece *xp = [[XPiece alloc] init];
-    //YPiece *yp = [[YPiece alloc] init];
-    
-}
-
-- (void) tearDownGL {
-    
+- (void)setupGL
+{
     [EAGLContext setCurrentContext:self.context];
 }
 
-- (void)setupOrthographicView: (CGSize)size {
+- (void)tearDownGL
+{
+    [EAGLContext setCurrentContext:self.context];
+}
+
+- (void)setupOrthographicView
+{
+    // get iPhone display size & aspect ratio
+    CGSize size = self.view.bounds.size;
     
     // set viewport based on display size
     glViewport(0, 0, size.width, size.height);
-    float min = MIN(size.width, size.height);
-    float width = size.width / min;  // class variable set above and checked below in event handler
-    float height = size.height / min;  // used in 'zooming' the camera in and out
     
     // set up orthographic projection
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrthof(-width, width, -height, height, -2, 2);
+    glOrthof(0, size.width, 0, size.height, -1, 1);
 }
 
 /* checks whether a board position is free or not */
@@ -119,53 +134,37 @@ int board[3][3] = {
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect {  // *drawing happens here*
     
-    // clear the rendering buffer
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClearColor(1, 1, 1, 1);
+    glClear(GL_COLOR_BUFFER_BIT);
     
-    // set up the transformation for models
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+    [_gameBoard drawBoard];
     
-    glEnableClientState(GL_VERTEX_ARRAY);
-    
+    for (XPiece *piece in _pieces) {
+        [piece drawXPieceOnBoard];
+    }
+    /*for (Ball *b in _pieces) {
+        [b drawBall];
+    }*/
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {  // screen touch event handler
     
     // get touch location & device display size
     CGPoint pos = [[touches anyObject] locationInView:self.view];
-    float xDist = pos.x - (self.view.bounds.size.width/2.0);
-    float yDist = pos.y - (self.view.bounds.size.height/2.0);
-    float x = self.view.bounds.size.width/2.0 + (12.0 * cos(M_PI * sinangle / 180.0));
-    float y = self.view.bounds.size.height/2.0 + (12.0 * sin(M_PI * cosangle / 180.0));
-    /*
-    if (fabs(pos.x) == x && fabs(pos.y) == y) {  // if earth is touched
-        
-        NSLog(@"> earth touched - zooming in");
-        glRotatef(-_moveDist[1].y, 0, 0, 1);
-        glTranslatef(-distanceAU, 0, 0);
-        glRotatef(-_moveDist[1].x, 0, 0, 1);
-    }
-      else if (pos.x == (12 * cos() + ) && pos.y == ()) {
-     
-     
-     }
-     else if () {
-     
-     
-     }
-     else if () {
-     
-     
-     }
-     else if () {
-     
-     
-     }*/
+    CGSize size = self.view.bounds.size;
+    
+    NSLog(@"Touch began at: %f,%f", pos.x, pos.y);
+    
+    XPiece *temp = [[XPiece alloc] initWithWidth:(size.width/3)-5 height:(size.height/3)-5 xPosition:pos.x yPosition:size.height-pos.y];
+    [_pieces addObject:temp];
 }
 
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    // get touch location & device display size
+    CGPoint pos = [[touches anyObject] locationInView:self.view];
+    
+    NSLog(@"Touch ended at: %f,%f", pos.x, pos.y);
 }
 
 @end

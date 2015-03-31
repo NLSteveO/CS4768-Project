@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 NLSteveO. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #import "XPiece.h"
 #import <OpenGLES/ES1/glext.h>
 
@@ -24,7 +25,7 @@
 
 - (void)drawXPieceOnBoard {
     glColor4f(0, 0, 0, 1);
-    glEnable(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_VERTEX_ARRAY);
     GLfloat points[8];
     points[0] = (GLfloat)(self.xPos-self.width);
     points[1] = (GLfloat)(self.yPos+self.height);
