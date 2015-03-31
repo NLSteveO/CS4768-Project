@@ -26,6 +26,10 @@
 
 @implementation GameViewController
 
+/* when dealing with the board, we have it set up so that each x,y location in the 2D
+ * array cooresponds to a 'flag' for determining whether that location in the tic-tac-toe
+ * board is available or not. * 1 indicates not free; 0 indicates free *
+ */
 int board[3][3] = {
     {0,0,0},
     {0,0,0},
@@ -103,6 +107,11 @@ int board[3][3] = {
 - (BOOL) positionIsFree: (int)x andY: (int)y {
     
     return board[x][y] == 0;
+}
+
+- (void) setBoardPositionToNotFree: (int)x andY: (int)y {
+    
+    board[x][y] = 1;
 }
 
 
