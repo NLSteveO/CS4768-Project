@@ -11,15 +11,16 @@
 #import "Board.h"
 #import "XPiece.h"
 #import "OPiece.h"
-#import "Ball.h"
 #import <OpenGLES/ES1/glext.h>
 
 @interface GameViewController() {
     
 }
 @property (strong, nonatomic) EAGLContext *context;
-@property (strong, nonatomic) NSMutableArray *pieces;
+@property (strong, nonatomic) NSMutableArray *xPieces;
+@property (strong, nonatomic) NSMutableArray *oPieces;
 @property Board *gameBoard;
+@property BOOL turn;
 
 - (void)setupGL;
 - (void)tearDownGL;
@@ -33,11 +34,7 @@
  * array cooresponds to a 'flag' for determining whether that location in the tic-tac-toe
  * board is available or not. * 1 indicates not free; 0 indicates free *
  */
-int board[3][3] = {
-    {0,0,0},
-    {0,0,0},
-    {0,0,0}
-};  // 3d array for checking whether a board position is free
+int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board position is free
 
 - (void)viewDidLoad
 {
@@ -53,11 +50,14 @@ int board[3][3] = {
     view.context = self.context;
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     
-    _pieces = [[NSMutableArray alloc] init];
+    _xPieces = [[NSMutableArray alloc] init];
+    _oPieces = [[NSMutableArray alloc] init];
     _gameBoard = [[Board alloc] initWithWidth:view.bounds.size.width height:view.bounds.size.height];
     
     XPiece *temp = [[XPiece alloc] initWithWidth:0 height:0 xPosition:0 yPosition:0];
-    [_pieces addObject:temp];
+    [_xPieces addObject:temp];
+    
+    _turn = YES;
     
     [self setupGL];
 }
@@ -119,14 +119,22 @@ int board[3][3] = {
 }
 
 /* checks whether a board position is free or not */
-- (BOOL) positionIsFree: (int)x andY: (int)y {
+- (BOOL) positionIsFree: (int)cell {
     
-    return board[x][y] == 0;
+    return board[cell] == 0;
 }
 
-- (void) setBoardPositionToNotFree: (int)x andY: (int)y {
+- (void) setBoardPositionToNotFree: (int)cell {
     
-    board[x][y] = 1;
+    board[cell] = 1;
+}
+
+- (BOOL) myTurn {
+    return _turn;
+}
+
+- (void) endTurn {
+    _turn = !_turn;
 }
 
 
@@ -139,32 +147,48 @@ int board[3][3] = {
     
     [_gameBoard drawBoard];
     
-    for (XPiece *piece in _pieces) {
+    for (XPiece *piece in _xPieces) {
         [piece drawXPieceOnBoard];
     }
-    /*for (Ball *b in _pieces) {
-        [b drawBall];
-    }*/
+    for (OPiece *piece in _oPieces) {
+        [piece drawOPieceOnBoard];
+    }
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {  // screen touch event handler
     
     // get touch location & device display size
     CGPoint pos = [[touches anyObject] locationInView:self.view];
-    CGSize size = self.view.bounds.size;
     
-    NSLog(@"Touch began at: %f,%f", pos.x, pos.y);
-    
-    XPiece *temp = [[XPiece alloc] initWithWidth:(size.width/3)-5 height:(size.height/3)-5 xPosition:pos.x yPosition:size.height-pos.y];
-    [_pieces addObject:temp];
+    //NSLog(@"Touch began at: %f,%f", pos.x, pos.y);
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     
     // get touch location & device display size
     CGPoint pos = [[touches anyObject] locationInView:self.view];
+    CGSize size = self.view.bounds.size;
     
-    NSLog(@"Touch ended at: %f,%f", pos.x, pos.y);
+    int cell = [_gameBoard getCellFromX:pos.x Y:pos.y];
+    
+    NSLog(@"Touch ended at: %f,%f --- %d", pos.x, pos.y, cell);
+    
+    if ([self myTurn]) {
+        if ([self positionIsFree:cell]) {
+            [self setBoardPositionToNotFree:cell];
+            XPiece *temp = [[XPiece alloc] initWithWidth:(size.width/3)-20 height:(size.height/3)-20 xPosition:[_gameBoard getXPosForCell:cell] yPosition:size.height-[_gameBoard getYPosForCell:cell]];
+            [_xPieces addObject:temp];
+            [self endTurn];
+        }
+    }
+    else {
+        if ([self positionIsFree:cell]) {
+            [self setBoardPositionToNotFree:cell];
+            OPiece *temp = [[OPiece alloc] initWithSize:(size.width/3)+40 xPosition:[_gameBoard getXPosForCell:cell] yPosition:size.height-[_gameBoard getYPosForCell:cell]];
+            [_oPieces addObject:temp];
+            [self endTurn];
+        }
+    }
 }
 
 @end

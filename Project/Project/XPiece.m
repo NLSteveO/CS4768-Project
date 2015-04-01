@@ -27,14 +27,14 @@
     glColor4f(0, 0, 0, 1);
     glEnableClientState(GL_VERTEX_ARRAY);
     GLfloat points[8];
-    points[0] = (GLfloat)(self.xPos-self.width);
-    points[1] = (GLfloat)(self.yPos+self.height);
-    points[2] = (GLfloat)(self.xPos+self.width);
-    points[3] = (GLfloat)(self.yPos-self.height);
-    points[4] = (GLfloat)(self.xPos-self.width);
-    points[5] = (GLfloat)(self.yPos-self.height);
-    points[6] = (GLfloat)(self.xPos+self.width);
-    points[7] = (GLfloat)(self.yPos+self.height);
+    points[0] = (GLfloat)(self.xPos-self.width/2);
+    points[1] = (GLfloat)(self.yPos+self.height/2);
+    points[2] = (GLfloat)(self.xPos+self.width/2);
+    points[3] = (GLfloat)(self.yPos-self.height/2);
+    points[4] = (GLfloat)(self.xPos-self.width/2);
+    points[5] = (GLfloat)(self.yPos-self.height/2);
+    points[6] = (GLfloat)(self.xPos+self.width/2);
+    points[7] = (GLfloat)(self.yPos+self.height/2);
     glVertexPointer(2, GL_FLOAT, 0, points);
     glDrawArrays(GL_LINES, 0, 4);
 }

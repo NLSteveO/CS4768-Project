@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 NLSteveO. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #import "OPiece.h"
 #import <OpenGLES/ES1/glext.h>
 
@@ -22,18 +23,18 @@
 }
 
 - (void)drawOPieceOnBoard {
-    glEnable(GL_VERTEX_ARRAY);
-    const GLfloat points[] = {
-        (GLfloat)self.xPos, (GLfloat)self.yPos
-    };
-    glVertexPointer(2, GL_FLOAT, 0, points);
-    glPointSize(self.size+5);
+    glEnableClientState(GL_VERTEX_ARRAY);
     glEnable(GL_POINT_SMOOTH);
+    GLfloat points[2];
+    points[0] = (GLfloat)self.xPos;
+    points[1] = (GLfloat)self.yPos;
+    glVertexPointer(2, GL_FLOAT, 0, points);
+    glPointSize(self.size+25);
     glColor4f(0, 0, 0, 1);
     glDrawArrays(GL_POINTS, 0, 1);
     glPointSize(self.size);
     glColor4f(1, 1, 1, 1);
-    glDrawArrays(GL_POINTS, 2, 1);
+    glDrawArrays(GL_POINTS, 0, 1);
 }
 
 @end
