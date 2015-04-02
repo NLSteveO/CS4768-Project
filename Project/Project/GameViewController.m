@@ -65,6 +65,10 @@ BOOL turn;
     turn = YES;
     _over = NO;
     
+    if ([session.connectedPeers count] == 0) {
+        self.gameStatus.text = @"It is your turn!";
+    }
+    
     [self setupGL];
 }
 
@@ -180,6 +184,12 @@ BOOL turn;
         self.gameStatus.text = @"Game over - tie! Tap to clear!";
         _over = YES;
     }
+    if (turn && !_over) {
+        self.gameStatus.text = @"It is your turn!";
+    }
+    else if (!_over) {
+        self.gameStatus.text = @"It is opponents turn!";
+    }
 }
 
 - (BOOL)boardFull {
@@ -204,9 +214,16 @@ BOOL turn;
 - (void)setTurn:(BOOL)turn {
     turn = turn;
     NSLog(@"%d", turn);
+    if (turn && !_over) {
+        self.gameStatus.text = @"It is your turn!";
+    }
+    else if (!_over) {
+        self.gameStatus.text = @"It is opponents turn!";
+    }
 }
 
 - (void)recieveMove:(int)cell {
+    NSLog(@"HI");
     [self setBoardPositionToNotFree:cell withXorO:-1];
     OPiece *temp = [[OPiece alloc] initWithSize:(self.view.bounds.size.width/3)+40 xPosition:[_gameBoard getXPosForCell:cell] yPosition:self.view.bounds.size.height-[_gameBoard getYPosForCell:cell]];
     [_oPieces addObject:temp];
@@ -222,13 +239,13 @@ BOOL turn;
     glClear(GL_COLOR_BUFFER_BIT);
     
     [_gameBoard drawBoard];  // draw the game board to screen
-    
+    /*
     if ([self myTurn] && !_over) {
         self.gameStatus.text = @"It is X's turn!";
     }
     else if (!_over) {
         self.gameStatus.text = @"It is O's turn!";
-    }
+    }*/
     
     for (XPiece *piece in _xPieces) {
         [piece drawXPieceOnBoard];
