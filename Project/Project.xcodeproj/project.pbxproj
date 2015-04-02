@@ -12,15 +12,15 @@
 		136306371AC6DC9F0087F07C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 136306351AC6DC9F0087F07C /* Main.storyboard */; };
 		1363063C1AC6DCA00087F07C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1363063A1AC6DCA00087F07C /* LaunchScreen.xib */; };
 		136306481AC6DCA00087F07C /* ProjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 136306471AC6DCA00087F07C /* ProjectTests.m */; };
-		139BEA381ACB0E4F00A5709F /* XPiece.m in Sources */ = {isa = PBXBuildFile; fileRef = 139BEA371ACB0E4F00A5709F /* XPiece.m */; };
-		139BEA3B1ACB167600A5709F /* OPiece.m in Sources */ = {isa = PBXBuildFile; fileRef = 139BEA3A1ACB167600A5709F /* OPiece.m */; };
-		139BEA3E1ACB200300A5709F /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 139BEA3D1ACB200300A5709F /* Board.m */; };
 		13FF70101AC8B1550073E4E9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13FF700F1AC8B1550073E4E9 /* UIKit.framework */; };
 		13FF70121AC8B15B0073E4E9 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13FF70111AC8B15B0073E4E9 /* GLKit.framework */; };
 		13FF70141AC8B1610073E4E9 /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13FF70131AC8B1610073E4E9 /* MultipeerConnectivity.framework */; };
 		13FF70161AC8B1670073E4E9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13FF70151AC8B1670073E4E9 /* Foundation.framework */; };
 		13FF70181AC8B1700073E4E9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13FF70171AC8B1700073E4E9 /* CoreGraphics.framework */; };
 		13FF701A1AC8B1760073E4E9 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13FF70191AC8B1760073E4E9 /* OpenGLES.framework */; };
+		210A0D041ACCE0AC00EF2BAC /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 210A0CFF1ACCE0AC00EF2BAC /* Board.m */; };
+		210A0D051ACCE0AC00EF2BAC /* OPiece.m in Sources */ = {isa = PBXBuildFile; fileRef = 210A0D011ACCE0AC00EF2BAC /* OPiece.m */; };
+		210A0D061ACCE0AC00EF2BAC /* XPiece.m in Sources */ = {isa = PBXBuildFile; fileRef = 210A0D031ACCE0AC00EF2BAC /* XPiece.m */; };
 		214BE2841AC709E9007C7A47 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 214BE2831AC709E9007C7A47 /* GameViewController.m */; };
 		214BE2871AC70A16007C7A47 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 214BE2861AC70A16007C7A47 /* ChatViewController.m */; };
 		215F7E8D1AC9620900AE8A19 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = 215F7E871AC9620900AE8A19 /* play.png */; };
@@ -64,18 +64,18 @@
 		136306411AC6DCA00087F07C /* ProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		136306461AC6DCA00087F07C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		136306471AC6DCA00087F07C /* ProjectTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProjectTests.m; sourceTree = "<group>"; };
-		139BEA361ACB0C4F00A5709F /* XPiece.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = XPiece.h; path = "../../../../../../../../Users/labnet/st7/p49sdok/cs 4768/CS4768-Project/Project/Project/XPiece.h"; sourceTree = "<group>"; };
-		139BEA371ACB0E4F00A5709F /* XPiece.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPiece.m; path = "../../../../../../../../Users/labnet/st7/p49sdok/cs 4768/CS4768-Project/Project/Project/XPiece.m"; sourceTree = "<group>"; };
-		139BEA391ACB160900A5709F /* OPiece.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OPiece.h; path = "../../../../../../../../Users/labnet/st7/p49sdok/cs 4768/CS4768-Project/Project/Project/OPiece.h"; sourceTree = "<group>"; };
-		139BEA3A1ACB167600A5709F /* OPiece.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OPiece.m; path = "../../../../../../../../Users/labnet/st7/p49sdok/cs 4768/CS4768-Project/Project/Project/OPiece.m"; sourceTree = "<group>"; };
-		139BEA3C1ACB1FF400A5709F /* Board.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Board.h; path = "../../../../../../../../Users/labnet/st7/p49sdok/cs 4768/CS4768-Project/Project/Project/Board.h"; sourceTree = "<group>"; };
-		139BEA3D1ACB200300A5709F /* Board.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Board.m; path = "../../../../../../../../Users/labnet/st7/p49sdok/cs 4768/CS4768-Project/Project/Project/Board.m"; sourceTree = "<group>"; };
 		13FF700F1AC8B1550073E4E9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		13FF70111AC8B15B0073E4E9 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		13FF70131AC8B1610073E4E9 /* MultipeerConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MultipeerConnectivity.framework; path = System/Library/Frameworks/MultipeerConnectivity.framework; sourceTree = SDKROOT; };
 		13FF70151AC8B1670073E4E9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		13FF70171AC8B1700073E4E9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		13FF70191AC8B1760073E4E9 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		210A0CFE1ACCE0AC00EF2BAC /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
+		210A0CFF1ACCE0AC00EF2BAC /* Board.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Board.m; sourceTree = "<group>"; };
+		210A0D001ACCE0AC00EF2BAC /* OPiece.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPiece.h; sourceTree = "<group>"; };
+		210A0D011ACCE0AC00EF2BAC /* OPiece.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPiece.m; sourceTree = "<group>"; };
+		210A0D021ACCE0AC00EF2BAC /* XPiece.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPiece.h; sourceTree = "<group>"; };
+		210A0D031ACCE0AC00EF2BAC /* XPiece.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPiece.m; sourceTree = "<group>"; };
 		214BE2821AC709D1007C7A47 /* GameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
 		214BE2831AC709E9007C7A47 /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
 		214BE2851AC70A03007C7A47 /* ChatViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChatViewController.h; sourceTree = "<group>"; };
@@ -155,12 +155,12 @@
 				21A98DBE1AC8D381003BD6DE /* WelcomeViewController.m */,
 				214BE2851AC70A03007C7A47 /* ChatViewController.h */,
 				214BE2861AC70A16007C7A47 /* ChatViewController.m */,
-				139BEA361ACB0C4F00A5709F /* XPiece.h */,
-				139BEA371ACB0E4F00A5709F /* XPiece.m */,
-				139BEA391ACB160900A5709F /* OPiece.h */,
-				139BEA3A1ACB167600A5709F /* OPiece.m */,
-				139BEA3C1ACB1FF400A5709F /* Board.h */,
-				139BEA3D1ACB200300A5709F /* Board.m */,
+				210A0CFE1ACCE0AC00EF2BAC /* Board.h */,
+				210A0CFF1ACCE0AC00EF2BAC /* Board.m */,
+				210A0D001ACCE0AC00EF2BAC /* OPiece.h */,
+				210A0D011ACCE0AC00EF2BAC /* OPiece.m */,
+				210A0D021ACCE0AC00EF2BAC /* XPiece.h */,
+				210A0D031ACCE0AC00EF2BAC /* XPiece.m */,
 				136306351AC6DC9F0087F07C /* Main.storyboard */,
 				1363063A1AC6DCA00087F07C /* LaunchScreen.xib */,
 				2198BE171AC96FE800EC5D9E /* Images.xcassets */,
@@ -340,13 +340,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				139BEA3B1ACB167600A5709F /* OPiece.m in Sources */,
 				21A98DBF1AC8D381003BD6DE /* WelcomeViewController.m in Sources */,
-				139BEA3E1ACB200300A5709F /* Board.m in Sources */,
 				214BE2841AC709E9007C7A47 /* GameViewController.m in Sources */,
 				214BE2871AC70A16007C7A47 /* ChatViewController.m in Sources */,
-				139BEA381ACB0E4F00A5709F /* XPiece.m in Sources */,
+				210A0D041ACCE0AC00EF2BAC /* Board.m in Sources */,
 				136306311AC6DC9F0087F07C /* AppDelegate.m in Sources */,
+				210A0D061ACCE0AC00EF2BAC /* XPiece.m in Sources */,
+				210A0D051ACCE0AC00EF2BAC /* OPiece.m in Sources */,
 				1363062E1AC6DC9F0087F07C /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

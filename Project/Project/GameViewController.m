@@ -128,9 +128,34 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
     
     return board[cell] == 0;
 }
-
+/* sets an array index, mimicing the game board, to 0, -1, or 1 (depending on X, O or free) */
 - (void)setBoardPositionToNotFree: (int)cell withXorO: (int)val {
     board[cell] = val;
+}
+
+/* checks whether a player has won.
+ * returns 0 if tie
+ *         1 if X has won
+ *         -1 if O has won
+ */
+-(int) checkForWinner {
+    
+    // check for horizontal win
+    if (board[0] == board[4] && board[0] == board[8]) return board[0];
+    else if (board[2] == board[4] && board[2] == board[6]) return board[2];
+    
+    // check for vertical win
+    else if (board[0] == board[3] && board[0] == board[6]) return board[0];
+    else if (board[1] == board[4] && board[1] == board[7]) return board[1];
+    else if (board[2] == board[5] && board[2] == board[7]) return board[2];
+    
+    // check for horizontal win
+    else if (board[0] == board[1] && board[0] == board[2]) return board[0];
+    else if (board[3] == board[4] && board[3] == board[5]) return board[3];
+    else if (board[6] == board[7] && board[6] == board[8]) return board[6];
+    
+    // tie game
+    else return 0;
 }
 
 - (BOOL) myTurn {
@@ -166,12 +191,13 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
 
 #pragma mark - GLKView and GLKViewController delegate methods
 
-- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect {  // *drawing happens here*
+/* drawing happens in this function */
+- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect {
     
     glClearColor(39/255.0f, 170/255.0f, 224/255.0f, 1);
     glClear(GL_COLOR_BUFFER_BIT);
     
-    [_gameBoard drawBoard];
+    [_gameBoard drawBoard];  // draw the game board to screen
     
     if ([self boardFull]) {
         self.gameStatus.text = @"Game over! Tap to clear!";
