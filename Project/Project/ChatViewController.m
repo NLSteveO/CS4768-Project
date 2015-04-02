@@ -106,7 +106,7 @@ MCSession *session;
 - (IBAction)sendButtonTapped:(UIButton *)sender {
     if ([session.connectedPeers count] > 0) {
         NSArray *peerIDs = session.connectedPeers;
-        NSString *str = self.textInput.text;
+        NSString *str = [NSString stringWithFormat:@"c:%@",self.textInput.text];
         [session sendData:[str dataUsingEncoding:NSASCIIStringEncoding]
                    toPeers:peerIDs
                   withMode:MCSessionSendDataReliable error:nil];
@@ -174,15 +174,16 @@ MCSession *session;
     NSString *str = [[NSString alloc] initWithData:data
                                           encoding:NSASCIIStringEncoding];
     NSLog(@"Received data: %@", str);
-    if ([str hasPrefix:@"\x04\vstreamtype"])
-        str = @"call established";
-    NSString *tempStr = [NSString stringWithFormat:@"%@\nMsg from %@: %@",
+    if ([str hasPrefix:@"c:"]) {
+        str = [str substringFromIndex:2];
+        NSString *tempStr = [NSString stringWithFormat:@"%@\nMsg from %@: %@",
                          self.textView.text,
                          peerID.displayName,
                          str];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.textView.text = tempStr;
-    });
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.textView.text = tempStr;
+        });
+    }
 }
 
 // Received a byte stream from remote peer
