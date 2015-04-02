@@ -61,6 +61,8 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
     
     XPiece *temp = [[XPiece alloc] initWithWidth:0 height:0 xPosition:0 yPosition:0];
     [_xPieces addObject:temp];
+    OPiece *temp2 = [[OPiece alloc] initWithSize:0 xPosition:0 yPosition:0];
+    [_oPieces addObject:temp2];
     
     _turn = YES;
     _over = NO;
@@ -169,6 +171,7 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
 
 - (void) endTurn {
     _turn = !_turn;
+    NSLog(@"%d",_turn);
     int winner = [self checkForWinner];
     if (winner == 1) {
         
@@ -223,11 +226,14 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
 }
 
 - (void)recieveMove:(int)cell {
-    NSLog(@"HI");
-    [self setBoardPositionToNotFree:cell withXorO:-1];
-    OPiece *temp = [[OPiece alloc] initWithSize:(self.view.bounds.size.width/3)+40 xPosition:[_gameBoard getXPosForCell:cell] yPosition:self.view.bounds.size.height-[_gameBoard getYPosForCell:cell]];
-    [_oPieces addObject:temp];
-    [self endTurn];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSLog(@"HI---%d", cell);
+        [self setBoardPositionToNotFree:cell withXorO:-1];
+        OPiece *temp = [[OPiece alloc] initWithSize:(self.view.bounds.size.width/3)+40 xPosition:[_gameBoard getXPosForCell:cell] yPosition:self.view.bounds.size.height-[_gameBoard getYPosForCell:cell]];
+        [_oPieces addObject:temp];
+        NSLog(@"%@---%d",temp, _turn);
+        [self endTurn];
+    });
 }
 
 #pragma mark - GLKView and GLKViewController delegate methods
@@ -250,8 +256,8 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
     for (XPiece *piece in _xPieces) {
         [piece drawXPieceOnBoard];
     }
-    for (OPiece *piece in _oPieces) {
-        [piece drawOPieceOnBoard];
+    for (OPiece *piece2 in _oPieces) {
+        [piece2 drawOPieceOnBoard];
     }
 }
 
@@ -271,10 +277,10 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
     
     int cell = [_gameBoard getCellFromX:pos.x Y:pos.y];
     
-    NSLog(@"Touch ended at: %f,%f --- %d", pos.x, pos.y, cell);
-    NSLog(@"%@", session.connectedPeers);
+    //NSLog(@"Touch ended at: %f,%f --- %d", pos.x, pos.y, cell);
+    //NSLog(@"%@", session.connectedPeers);
     
-    if ([self myTurn] && !_over) {
+    if ([self myTurn] == 1 && !_over) {
         if ([self positionIsFree:cell]) {
             [self setBoardPositionToNotFree:cell withXorO:1];
             XPiece *temp = [[XPiece alloc] initWithWidth:(size.width/3)-20 height:(size.width/3)-20 xPosition:[_gameBoard getXPosForCell:cell] yPosition:size.height-[_gameBoard getYPosForCell:cell]];
