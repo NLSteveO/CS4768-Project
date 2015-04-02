@@ -11,4 +11,7 @@
 
 @interface GameViewController : GLKViewController
 
+- (void)setTurn:(BOOL)turn;
+- (void)recieveMove:(int)cell;
+
 @end

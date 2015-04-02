@@ -22,7 +22,6 @@
 @property (strong, nonatomic) NSMutableArray *oPieces;
 @property (weak, nonatomic) IBOutlet UILabel *gameStatus;
 @property Board *gameBoard;
-@property BOOL turn;
 @property BOOL over;
 
 - (void)setupGL;
@@ -40,6 +39,7 @@
  * -1 indicates not free and occupied by O *
  */
 int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board position is free
+BOOL turn;
 
 - (void)viewDidLoad
 {
@@ -62,7 +62,7 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
     XPiece *temp = [[XPiece alloc] initWithWidth:0 height:0 xPosition:0 yPosition:0];
     [_xPieces addObject:temp];
     
-    _turn = YES;
+    turn = YES;
     _over = NO;
     
     [self setupGL];
@@ -160,11 +160,11 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
 }
 
 - (BOOL) myTurn {
-    return _turn;
+    return turn;
 }
 
 - (void) endTurn {
-    _turn = !_turn;
+    turn = !turn;
     int winner = [self checkForWinner];
     if (winner == 1) {
         
@@ -201,8 +201,16 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
     [_xPieces removeAllObjects];
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    [self clearAll];
+- (void)setTurn:(BOOL)turn {
+    turn = turn;
+    NSLog(@"%d", turn);
+}
+
+- (void)recieveMove:(int)cell {
+    [self setBoardPositionToNotFree:cell withXorO:-1];
+    OPiece *temp = [[OPiece alloc] initWithSize:(self.view.bounds.size.width/3)+40 xPosition:[_gameBoard getXPosForCell:cell] yPosition:self.view.bounds.size.height-[_gameBoard getYPosForCell:cell]];
+    [_oPieces addObject:temp];
+    [self endTurn];
 }
 
 #pragma mark - GLKView and GLKViewController delegate methods
@@ -254,9 +262,13 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
             XPiece *temp = [[XPiece alloc] initWithWidth:(size.width/3)-20 height:(size.width/3)-20 xPosition:[_gameBoard getXPosForCell:cell] yPosition:size.height-[_gameBoard getYPosForCell:cell]];
             [_xPieces addObject:temp];
             [self endTurn];
+            NSString *str = [NSString stringWithFormat:@"g:%d", cell];
+            [session sendData:[str dataUsingEncoding:NSASCIIStringEncoding]
+                      toPeers:session.connectedPeers
+                     withMode:MCSessionSendDataReliable error:nil];
         }
     }
-    else if ( !_over) {
+    else if ( !_over && [session.connectedPeers count] == 0) {
         if ([self positionIsFree:cell]) {
             [self setBoardPositionToNotFree:cell withXorO:-1];
             OPiece *temp = [[OPiece alloc] initWithSize:(size.width/3)+40 xPosition:[_gameBoard getXPosForCell:cell] yPosition:size.height-[_gameBoard getYPosForCell:cell]];
@@ -269,5 +281,6 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
         _over = NO;
     }
 }
+
 
 @end

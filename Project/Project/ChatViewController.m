@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ChatViewController.h"
+#import "GameViewController.h"
 
 @interface ChatViewController ()
 {
@@ -25,6 +26,7 @@
 @property (strong, nonatomic) MCBrowserViewController *browserVC;
 
 @property int number;
+@property GameViewController *gvc;
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField;
 - (IBAction)sendButtonTapped:(UIButton *)sender;
@@ -64,6 +66,7 @@ MCSession *session;
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    self.gvc = [[GameViewController alloc] init];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -159,8 +162,8 @@ MCSession *session;
     {
         dispatch_async(dispatch_get_main_queue(), ^{
             _number = arc4random();
-            NSString *str = [NSString stringWithFormat:@"g:%d", _number];
-            [session sendData:[str dataUsingEncoding:NSASCIIStringEncoding]
+            NSString *str2 = [NSString stringWithFormat:@"s:%d", _number];
+            [session sendData:[str2 dataUsingEncoding:NSASCIIStringEncoding]
                       toPeers:session.connectedPeers
                      withMode:MCSessionSendDataReliable error:nil];
             self.statusLabel.text = [str stringByAppendingString:@" connected"];
@@ -192,24 +195,32 @@ MCSession *session;
             self.textView.text = tempStr;
         });
     }
-    else if ([str hasPrefix:@"g:"]) {
+    else if ([str hasPrefix:@"s:"]) {
         str = [str substringFromIndex:2];
         dispatch_async(dispatch_get_main_queue(), ^{
             int opponentNumber = [str intValue];
             if (_number > opponentNumber) {
                 NSLog(@"Our turn");
+                [self.gvc setTurn: YES];
             }
             else if (_number < opponentNumber) {
                 NSLog(@"Their turn");
+                [self.gvc setTurn: NO];
             }
             else {
                 _number = arc4random();
-                NSString *str = [NSString stringWithFormat:@"g:%d", _number];
+                NSString *str = [NSString stringWithFormat:@"s:%d", _number];
                 [session sendData:[str dataUsingEncoding:NSASCIIStringEncoding]
                       toPeers:session.connectedPeers
                      withMode:MCSessionSendDataReliable error:nil];
 
             }
+        });
+    }
+    else if ([str hasPrefix:@"g:"]) {
+        str = [str substringFromIndex:2];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.gvc recieveMove:[str intValue]];
         });
     }
 }
