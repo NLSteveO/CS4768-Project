@@ -19,12 +19,15 @@
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) NSMutableArray *xPieces;
 @property (strong, nonatomic) NSMutableArray *oPieces;
+@property (weak, nonatomic) IBOutlet UILabel *gameStatus;
 @property Board *gameBoard;
 @property BOOL turn;
+@property BOOL over;
 
 - (void)setupGL;
 - (void)tearDownGL;
 - (void)setupOrthographicView;
+- (void)setBoardPositionToNotFree:(int)cell withXorO:(int)val;
 
 @end
 
@@ -58,6 +61,7 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
     [_xPieces addObject:temp];
     
     _turn = YES;
+    _over = NO;
     
     [self setupGL];
 }
@@ -124,9 +128,8 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
     return board[cell] == 0;
 }
 
-- (void) setBoardPositionToNotFree: (int)cell {
-    
-    board[cell] = 1;
+- (void)setBoardPositionToNotFree: (int)cell withXorO: (int)val {
+    board[cell] = val;
 }
 
 - (BOOL) myTurn {
@@ -137,6 +140,28 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
     _turn = !_turn;
 }
 
+- (BOOL)boardFull {
+    BOOL full = YES;
+    for (int i = 0; i < 9; i++) {
+        if (board[i] == 0) {
+            full = NO;
+            break;
+        }
+    }
+    return full;
+}
+
+- (void)clearAll {
+    for (int i = 0; i < 9; i++) {
+        board[i] = 0;
+    }
+    [_oPieces removeAllObjects];
+    [_xPieces removeAllObjects];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    [self clearAll];
+}
 
 #pragma mark - GLKView and GLKViewController delegate methods
 
@@ -146,6 +171,18 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
     glClear(GL_COLOR_BUFFER_BIT);
     
     [_gameBoard drawBoard];
+    
+    if ([self boardFull]) {
+        self.gameStatus.text = @"Game over! Tap to clear!";
+        _over = YES;
+    }
+    
+    if ([self myTurn] && !_over) {
+        self.gameStatus.text = @"It is X's turn!";
+    }
+    else if (!_over) {
+        self.gameStatus.text = @"It is O's turn!";
+    }
     
     for (XPiece *piece in _xPieces) {
         [piece drawXPieceOnBoard];
@@ -158,7 +195,7 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {  // screen touch event handler
     
     // get touch location & device display size
-    CGPoint pos = [[touches anyObject] locationInView:self.view];
+    //CGPoint pos = [[touches anyObject] locationInView:self.view];
     
     //NSLog(@"Touch began at: %f,%f", pos.x, pos.y);
 }
@@ -173,21 +210,25 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
     
     NSLog(@"Touch ended at: %f,%f --- %d", pos.x, pos.y, cell);
     
-    if ([self myTurn]) {
+    if ([self myTurn] && !_over) {
         if ([self positionIsFree:cell]) {
-            [self setBoardPositionToNotFree:cell];
+            [self setBoardPositionToNotFree:cell withXorO:1];
             XPiece *temp = [[XPiece alloc] initWithWidth:(size.width/3)-20 height:(size.height/3)-20 xPosition:[_gameBoard getXPosForCell:cell] yPosition:size.height-[_gameBoard getYPosForCell:cell]];
             [_xPieces addObject:temp];
             [self endTurn];
         }
     }
-    else {
+    else if ( !_over) {
         if ([self positionIsFree:cell]) {
-            [self setBoardPositionToNotFree:cell];
+            [self setBoardPositionToNotFree:cell withXorO:-1];
             OPiece *temp = [[OPiece alloc] initWithSize:(size.width/3)+40 xPosition:[_gameBoard getXPosForCell:cell] yPosition:size.height-[_gameBoard getYPosForCell:cell]];
             [_oPieces addObject:temp];
             [self endTurn];
         }
+    }
+    else {
+        [self clearAll];
+        _over = NO;
     }
 }
 
