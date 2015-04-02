@@ -16,6 +16,7 @@
 @interface GameViewController() {
     
 }
+
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) NSMutableArray *xPieces;
 @property (strong, nonatomic) NSMutableArray *oPieces;
@@ -134,20 +135,20 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
 }
 
 /* checks whether a player has won.
- * returns 0 if tie
- *         1 if X has won
- *         -1 if O has won
+ * returns 0   if tie
+ *         1   if X has won
+ *         -1  if O has won
  */
 -(int) checkForWinner {
     
-    // check for horizontal win
+    // check for diagonal win
     if (board[0] == board[4] && board[0] == board[8]) return board[0];
     else if (board[2] == board[4] && board[2] == board[6]) return board[2];
     
     // check for vertical win
     else if (board[0] == board[3] && board[0] == board[6]) return board[0];
     else if (board[1] == board[4] && board[1] == board[7]) return board[1];
-    else if (board[2] == board[5] && board[2] == board[7]) return board[2];
+    else if (board[2] == board[5] && board[2] == board[8]) return board[2];
     
     // check for horizontal win
     else if (board[0] == board[1] && board[0] == board[2]) return board[0];
@@ -164,6 +165,21 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
 
 - (void) endTurn {
     _turn = !_turn;
+    int winner = [self checkForWinner];
+    if (winner == 1) {
+        
+        self.gameStatus.text = @"Game over - X wins! Tap to reset";
+        _over = YES;
+    }
+    else if (winner == -1) {
+        
+        self.gameStatus.text = @"Game over - O wins! Tap to reset";
+        _over = YES;
+    }
+    else if ([self boardFull]) {
+        self.gameStatus.text = @"Game over - tie! Tap to clear!";
+        _over = YES;
+    }
 }
 
 - (BOOL)boardFull {
@@ -198,11 +214,6 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
     glClear(GL_COLOR_BUFFER_BIT);
     
     [_gameBoard drawBoard];  // draw the game board to screen
-    
-    if ([self boardFull]) {
-        self.gameStatus.text = @"Game over! Tap to clear!";
-        _over = YES;
-    }
     
     if ([self myTurn] && !_over) {
         self.gameStatus.text = @"It is X's turn!";
