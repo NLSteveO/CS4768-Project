@@ -24,6 +24,8 @@
 @property (strong, nonatomic) MCAdvertiserAssistant *assistant;
 @property (strong, nonatomic) MCBrowserViewController *browserVC;
 
+@property int number;
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField;
 - (IBAction)sendButtonTapped:(UIButton *)sender;
 - (IBAction)connectButtonTapped:(UIButton *)sender;
@@ -113,6 +115,7 @@ MCSession *session;
         self.textInput.text = @"";
         [self.textInput resignFirstResponder];
         // echo in the local text view
+        str = [str substringFromIndex:2];
         self.textView.text = [NSString stringWithFormat:@"%@\n> %@", self.textView.text, str];
     }
 }
@@ -155,6 +158,11 @@ MCSession *session;
     if (state == MCSessionStateConnected)
     {
         dispatch_async(dispatch_get_main_queue(), ^{
+            _number = arc4random();
+            NSString *str = [NSString stringWithFormat:@"g:%d", _number];
+            [session sendData:[str dataUsingEncoding:NSASCIIStringEncoding]
+                      toPeers:session.connectedPeers
+                     withMode:MCSessionSendDataReliable error:nil];
             self.statusLabel.text = [str stringByAppendingString:@" connected"];
             [self setUIToConnectedState];
         });
@@ -182,6 +190,26 @@ MCSession *session;
                          str];
         dispatch_async(dispatch_get_main_queue(), ^{
             self.textView.text = tempStr;
+        });
+    }
+    else if ([str hasPrefix:@"g:"]) {
+        str = [str substringFromIndex:2];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            int opponentNumber = [str intValue];
+            if (_number > opponentNumber) {
+                NSLog(@"Our turn");
+            }
+            else if (_number < opponentNumber) {
+                NSLog(@"Their turn");
+            }
+            else {
+                _number = arc4random();
+                NSString *str = [NSString stringWithFormat:@"g:%d", _number];
+                [session sendData:[str dataUsingEncoding:NSASCIIStringEncoding]
+                      toPeers:session.connectedPeers
+                     withMode:MCSessionSendDataReliable error:nil];
+
+            }
         });
     }
 }
