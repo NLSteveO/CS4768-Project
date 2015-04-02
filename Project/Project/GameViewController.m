@@ -35,7 +35,8 @@
 
 /* when dealing with the board, we have it set up so that each x,y location in the 2D
  * array cooresponds to a 'flag' for determining whether that location in the tic-tac-toe
- * board is available or not. * 1 indicates not free; 0 indicates free *
+ * board is available or not. * 1 indicates not free and occupied by X; 0 indicates free;
+ * -1 indicates not free and occupied by O *
  */
 int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board position is free
 
@@ -167,7 +168,7 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect {  // *drawing happens here*
     
-    glClearColor(1, 1, 1, 1);
+    glClearColor(39/255.0f, 170/255.0f, 224/255.0f, 1);
     glClear(GL_COLOR_BUFFER_BIT);
     
     [_gameBoard drawBoard];

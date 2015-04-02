@@ -29,9 +29,9 @@
 - (void)drawBoard {
     GLfloat points[16];
     points[0] = (GLfloat)(self.width/3); points[1] = (GLfloat)(0);
-    points[2] = (GLfloat)(self.width/3); points[3] = (GLfloat)(self.height);
+    points[2] = (GLfloat)(self.width/3); points[3] = (GLfloat)(self.height-50);
     points[4] = (GLfloat)(2*self.width/3); points[5] = (GLfloat)(0);
-    points[6] = (GLfloat)(2*self.width/3); points[7] = (GLfloat)(self.height);
+    points[6] = (GLfloat)(2*self.width/3); points[7] = (GLfloat)(self.height-50);
     
     points[8] = (GLfloat)(0); points[9] = (GLfloat)(self.height/3);
     points[10] = (GLfloat)(self.width); points[11] = (GLfloat)(self.height/3);

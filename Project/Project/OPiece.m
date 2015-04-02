@@ -33,7 +33,7 @@
     glColor4f(0, 0, 0, 1);
     glDrawArrays(GL_POINTS, 0, 1);
     glPointSize(self.size);
-    glColor4f(1, 1, 1, 1);
+    glColor4f(39/255.0f, 170/255.0f, 224/255.0f, 1);
     glDrawArrays(GL_POINTS, 0, 1);
 }
 
