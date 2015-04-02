@@ -255,6 +255,7 @@ BOOL turn;
     int cell = [_gameBoard getCellFromX:pos.x Y:pos.y];
     
     NSLog(@"Touch ended at: %f,%f --- %d", pos.x, pos.y, cell);
+    NSLog(@"%@", session.connectedPeers);
     
     if ([self myTurn] && !_over) {
         if ([self positionIsFree:cell]) {
@@ -276,7 +277,7 @@ BOOL turn;
             [self endTurn];
         }
     }
-    else {
+    else if (_over) {
         [self clearAll];
         _over = NO;
     }

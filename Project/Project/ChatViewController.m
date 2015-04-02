@@ -161,7 +161,7 @@ MCSession *session;
     if (state == MCSessionStateConnected)
     {
         dispatch_async(dispatch_get_main_queue(), ^{
-            _number = arc4random();
+            _number = arc4random()%100;
             NSString *str2 = [NSString stringWithFormat:@"s:%d", _number];
             [session sendData:[str2 dataUsingEncoding:NSASCIIStringEncoding]
                       toPeers:session.connectedPeers
