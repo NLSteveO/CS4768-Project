@@ -219,9 +219,7 @@ MCSession *session;
     }
     else if ([str hasPrefix:@"g:"]) {
         str = [str substringFromIndex:2];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.gvc recieveMove:[str intValue]];
-        });
+        [self.gvc recieveMove:[str intValue]];
     }
 }
 

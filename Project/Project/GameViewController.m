@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *gameStatus;
 @property Board *gameBoard;
 @property BOOL over;
+@property (nonatomic) BOOL turn;
 
 - (void)setupGL;
 - (void)tearDownGL;
@@ -39,7 +40,6 @@
  * -1 indicates not free and occupied by O *
  */
 int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board position is free
-BOOL turn;
 
 - (void)viewDidLoad
 {
@@ -62,7 +62,7 @@ BOOL turn;
     XPiece *temp = [[XPiece alloc] initWithWidth:0 height:0 xPosition:0 yPosition:0];
     [_xPieces addObject:temp];
     
-    turn = YES;
+    _turn = YES;
     _over = NO;
     
     if ([session.connectedPeers count] == 0) {
@@ -164,11 +164,11 @@ BOOL turn;
 }
 
 - (BOOL) myTurn {
-    return turn;
+    return _turn;
 }
 
 - (void) endTurn {
-    turn = !turn;
+    _turn = !_turn;
     int winner = [self checkForWinner];
     if (winner == 1) {
         
@@ -184,7 +184,7 @@ BOOL turn;
         self.gameStatus.text = @"Game over - tie! Tap to clear!";
         _over = YES;
     }
-    if (turn && !_over) {
+    if (_turn && !_over) {
         self.gameStatus.text = @"It is your turn!";
     }
     else if (!_over) {
@@ -212,9 +212,9 @@ BOOL turn;
 }
 
 - (void)setTurn:(BOOL)turn {
-    turn = turn;
-    NSLog(@"%d", turn);
-    if (turn && !_over) {
+    _turn = turn;
+    NSLog(@"%d", _turn);
+    if (_turn && !_over) {
         self.gameStatus.text = @"It is your turn!";
     }
     else if (!_over) {
