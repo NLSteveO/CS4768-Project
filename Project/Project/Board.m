@@ -2,8 +2,8 @@
 //  Board.m
 //  Project
 //
-//  Created by Stephen Douglas O'Keefe on 2015-03-31.
-//  Copyright (c) 2015 NLSteveO. All rights reserved.
+//  Created by Stephen Douglas O'Keefe & Ryan Martin on 2015-03-28.
+//  Copyright (c) 2015 NLSteveO & Ryan Martin. All rights reserved.
 //
 
 #import <foundation/Foundation.h>
