@@ -142,18 +142,18 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
 -(int) checkForWinner {
     
     // check for diagonal win
-    if (board[0] == board[4] && board[0] == board[8]) return board[0];
-    else if (board[2] == board[4] && board[2] == board[6]) return board[2];
+    if (board[0] == board[4] && board[0] == board[8] && board[0] != 0) return board[0];
+    else if (board[2] == board[4] && board[2] == board[6] && board[2] != 0) return board[2];
     
     // check for vertical win
-    else if (board[0] == board[3] && board[0] == board[6]) return board[0];
-    else if (board[1] == board[4] && board[1] == board[7]) return board[1];
-    else if (board[2] == board[5] && board[2] == board[8]) return board[2];
+    else if (board[0] == board[3] && board[0] == board[6] && board[0] != 0) return board[0];
+    else if (board[1] == board[4] && board[1] == board[7] && board[1] != 0) return board[1];
+    else if (board[2] == board[5] && board[2] == board[8] && board[2] != 0) return board[2];
     
     // check for horizontal win
-    else if (board[0] == board[1] && board[0] == board[2]) return board[0];
-    else if (board[3] == board[4] && board[3] == board[5]) return board[3];
-    else if (board[6] == board[7] && board[6] == board[8]) return board[6];
+    else if (board[0] == board[1] && board[0] == board[2] && board[0] != 0) return board[0];
+    else if (board[3] == board[4] && board[3] == board[5] && board[3] != 0) return board[3];
+    else if (board[6] == board[7] && board[6] == board[8] && board[6] != 0) return board[6];
     
     // tie game
     else return 0;
@@ -251,7 +251,7 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
     if ([self myTurn] && !_over) {
         if ([self positionIsFree:cell]) {
             [self setBoardPositionToNotFree:cell withXorO:1];
-            XPiece *temp = [[XPiece alloc] initWithWidth:(size.width/3)-20 height:(size.height/3)-20 xPosition:[_gameBoard getXPosForCell:cell] yPosition:size.height-[_gameBoard getYPosForCell:cell]];
+            XPiece *temp = [[XPiece alloc] initWithWidth:(size.width/3)-20 height:(size.width/3)-20 xPosition:[_gameBoard getXPosForCell:cell] yPosition:size.height-[_gameBoard getYPosForCell:cell]];
             [_xPieces addObject:temp];
             [self endTurn];
         }
