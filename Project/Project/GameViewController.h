@@ -10,6 +10,7 @@
 #import <GLKit/GLKit.h>
 
 static BOOL canMakeTurn;
+static BOOL over;
 static int board[9];
 static NSMutableArray *oPieces;
 static NSMutableArray *xPieces;
@@ -18,6 +19,7 @@ static NSMutableArray *xPieces;
 }
 
 + (void)initialize;
+//+ (void)clearAll;
 - (void)setTurn:(BOOL)turn;
 - (void)recieveMove:(int)cell;
 - (void)clearAll;

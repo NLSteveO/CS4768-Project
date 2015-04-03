@@ -223,9 +223,10 @@ MCSession *session;
         [self.gvc recieveMove:[str intValue]];
 
     }
-    else if ([str hasPrefix:@"c:"]) {
+    else if ([str isEqualToString:@"clear"]) {
+        NSLog(@"AAA");
         [self.gvc clearAll];
-        
+        //[GameViewController clearAll];
     }
 }
 

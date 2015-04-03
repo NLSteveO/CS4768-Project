@@ -49,6 +49,7 @@
     for (int i = 0; i < 9; i++) {
         board[i] = 0;
     }
+    over = NO;
 }
 
 - (void)viewDidLoad
@@ -73,8 +74,7 @@
     [oPieces addObject:temp2];
     
     //canMakeTurn = YES;            /* should this be set to yes upon load? */
-    _localTurn = YES;
-    _over = NO;  // logical
+    _localTurn = YES;  // logical
     
     if ([session.connectedPeers count] == 0) {
         self.gameStatus.text = @"It is your turn!";
@@ -184,21 +184,21 @@
     if (winner == 1) {
         
         self.gameStatus.text = @"Game over - X wins! Tap to reset";
-        _over = YES;
+        over = YES;
     }
     else if (winner == -1) {
         
         self.gameStatus.text = @"Game over - O wins! Tap to reset";
-        _over = YES;
+        over = YES;
     }
     else if ([self boardFull]) {
         self.gameStatus.text = @"Game over - tie! Tap to clear!";
-        _over = YES;
+        over = YES;
     }
-    if (canMakeTurn && !_over) {
+    if (canMakeTurn && !over) {
         self.gameStatus.text = @"It is your turn!";
     }
-    else if (!_over) {
+    else if (!over) {
         self.gameStatus.text = @"It is opponents turn!";
     }
 }
@@ -222,7 +222,17 @@
     }
     [oPieces removeAllObjects];
     [xPieces removeAllObjects];
+    over = NO;
+    NSLog(@"%d", [oPieces count]);
 }
+
+/*+ (void)clearAll {
+    for (int i = 0; i < 9; i++) {
+        board[i] = 0;
+    }
+    [oPieces removeAllObjects];
+    [xPieces removeAllObjects];
+}*/
 
 /* sets a value for turn and updates game status label */
 - (void)setTurn:(BOOL)turn {
@@ -255,10 +265,10 @@
     
     [_gameBoard drawBoard];  // draw the game board to screen
     
-    if (canMakeTurn && !_over) {
+    if (canMakeTurn && !over) {
         self.gameStatus.text = @"It is your turn!";
     }
-    else if (!_over) {
+    else if (!over) {
         self.gameStatus.text = @"It is their turn!";
     }
     
@@ -287,7 +297,7 @@
     //NSLog(@"Touch ended at: %f,%f --- %d", pos.x, pos.y, cell);
     //NSLog(@"%@", session.connectedPeers);
     NSLog(@"Turn: %d", canMakeTurn);
-    if (canMakeTurn && !_over) {  // if the game is NOT over
+    if (canMakeTurn && !over) {  // if the game is NOT over
         
         if ([session.connectedPeers count] == 0 && [self positionIsFree:cell]) {  // pass and play multiplayer
 
@@ -326,13 +336,12 @@
                      withMode:MCSessionSendDataReliable error:nil];
         }
     }
-    else if (_over) {  // my have to move this to the second else if of outer if conditional
-        NSString *str = [NSString stringWithFormat:@"c:clear"];
+    else if (over) {  // my have to move this to the second else if of outer if conditional
+        NSString *str = [NSString stringWithFormat:@"clear"];
         [session sendData:[str dataUsingEncoding:NSASCIIStringEncoding]
                   toPeers:session.connectedPeers
                  withMode:MCSessionSendDataReliable error:nil];
         [self clearAll];
-        _over = NO;
     }
 }
 
