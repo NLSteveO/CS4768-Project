@@ -223,6 +223,10 @@ MCSession *session;
         [self.gvc recieveMove:[str intValue]];
 
     }
+    else if ([str hasPrefix:@"c:"]) {
+        [self.gvc clearAll];
+        
+    }
 }
 
 // Received a byte stream from remote peer

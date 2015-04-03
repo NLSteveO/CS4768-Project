@@ -39,13 +39,16 @@
  * board is available or not. * 1 indicates not free and occupied by X; 0 indicates free;
  * -1 indicates not free and occupied by O *
  */
-int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board position is free
+//oard = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board position is free
 //static bool canMakeTurn;
 
 + (void)initialize {
     canMakeTurn = YES;
     xPieces = [[NSMutableArray alloc] init];
     oPieces = [[NSMutableArray alloc] init];
+    for (int i = 0; i < 9; i++) {
+        board[i] = 0;
+    }
 }
 
 - (void)viewDidLoad
@@ -69,7 +72,7 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
     OPiece *temp2 = [[OPiece alloc] initWithSize:0 xPosition:0 yPosition:0];
     [oPieces addObject:temp2];
     
-    canMakeTurn = YES;            /* should this be set to yes upon load? */
+    //canMakeTurn = YES;            /* should this be set to yes upon load? */
     _localTurn = YES;
     _over = NO;  // logical
     
@@ -225,16 +228,9 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
 - (void)setTurn:(BOOL)turn {
     canMakeTurn = turn;  // should this be here?
     NSLog(@"turn: %d", canMakeTurn);
-    NSLog(@"[%d][%d][%d]", board[0], board[1], board[2]);
-    NSLog(@"[%d][%d][%d]", board[3], board[4], board[5]);
-    NSLog(@"[%d][%d][%d]", board[6], board[7], board[8]);
-    NSLog(@"o count: %lu",(unsigned long)[oPieces count]);
-    NSLog(@"x count: %lu",(unsigned long)[xPieces count]);
+    XPiece *temp = [[XPiece alloc] initWithWidth:0 height:0 xPosition:0 yPosition:1];
+    [xPieces addObject:temp];
 }
-
-/*- (void)setTurn:(BOOL)turn {
-    canMakeTurn = turn;
-}*/
 
 /* creates O object and places it in array to be drawn in function below */
 - (void)recieveMove:(int)cell {
@@ -260,10 +256,10 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
     [_gameBoard drawBoard];  // draw the game board to screen
     
     if (canMakeTurn && !_over) {
-        self.gameStatus.text = @"It is X's turn!";
+        self.gameStatus.text = @"It is your turn!";
     }
     else if (!_over) {
-        self.gameStatus.text = @"It is O's turn!";
+        self.gameStatus.text = @"It is their turn!";
     }
     
     [self endTurn];
@@ -283,8 +279,6 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
 /* called when a user lifts finger from the screen, where game piece will be drawn */
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     
-    if ([self myTurn] && !_over) {  // is it even our turn to go?
-    
     // get touch location & device display size
     CGPoint pos = [[touches anyObject] locationInView:self.view];
     CGSize size = self.view.bounds.size;
@@ -292,8 +286,8 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
     
     //NSLog(@"Touch ended at: %f,%f --- %d", pos.x, pos.y, cell);
     //NSLog(@"%@", session.connectedPeers);
-    
-    if (!_over) {  // if the game is NOT over
+    NSLog(@"Turn: %d", canMakeTurn);
+    if (canMakeTurn && !_over) {  // if the game is NOT over
         
         if ([session.connectedPeers count] == 0 && [self positionIsFree:cell]) {  // pass and play multiplayer
 
@@ -332,9 +326,11 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
                      withMode:MCSessionSendDataReliable error:nil];
         }
     }
-    }
     else if (_over) {  // my have to move this to the second else if of outer if conditional
-        
+        NSString *str = [NSString stringWithFormat:@"c:clear"];
+        [session sendData:[str dataUsingEncoding:NSASCIIStringEncoding]
+                  toPeers:session.connectedPeers
+                 withMode:MCSessionSendDataReliable error:nil];
         [self clearAll];
         _over = NO;
     }
