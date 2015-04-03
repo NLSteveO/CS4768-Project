@@ -160,7 +160,7 @@ MCSession *session;
     NSString *str = [NSString stringWithFormat:@"Status: %@", peerID.displayName];
     if (state == MCSessionStateConnected)
     {
-        dispatch_async(dispatch_get_main_queue(), ^{
+      //  dispatch_async(dispatch_get_main_queue(), ^{
             _number = arc4random()%100;
             NSString *str2 = [NSString stringWithFormat:@"s:%d", _number];
             [session sendData:[str2 dataUsingEncoding:NSASCIIStringEncoding]
@@ -168,7 +168,7 @@ MCSession *session;
                      withMode:MCSessionSendDataReliable error:nil];
             self.statusLabel.text = [str stringByAppendingString:@" connected"];
             [self setUIToConnectedState];
-        });
+       // });
     }
     else if (state == MCSessionStateNotConnected) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -180,8 +180,8 @@ MCSession *session;
 }
 
 // Received data from remote peer
-- (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID
-{
+- (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID {
+    
     NSString *str = [[NSString alloc] initWithData:data
                                           encoding:NSASCIIStringEncoding];
     NSLog(@"Received data: %@", str);
@@ -197,7 +197,7 @@ MCSession *session;
     }
     else if ([str hasPrefix:@"s:"]) {
         str = [str substringFromIndex:2];
-        dispatch_async(dispatch_get_main_queue(), ^{
+        //dispatch_async(dispatch_get_main_queue(), ^{
             int opponentNumber = [str intValue];
             if (_number > opponentNumber) {
                 NSLog(@"Our turn");
@@ -215,11 +215,12 @@ MCSession *session;
                      withMode:MCSessionSendDataReliable error:nil];
 
             }
-        });
+        //});
     }
     else if ([str hasPrefix:@"g:"]) {
         str = [str substringFromIndex:2];
         [self.gvc recieveMove:[str intValue]];
+        [self.gvc setTurn:YES];
     }
 }
 
