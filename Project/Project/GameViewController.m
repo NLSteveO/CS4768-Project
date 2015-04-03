@@ -177,8 +177,6 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
 
 /* Negates canMakeTurn and determines whether game is over */
 - (void) endTurn {
-    //_canMakeTurn = !_canMakeTurn;
-    NSLog(@"canMakeTurn: %d",canMakeTurn);
     int winner = [self checkForWinner];
     if (winner == 1) {
         
@@ -227,12 +225,6 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
 - (void)setTurn:(BOOL)turn {
     canMakeTurn = turn;  // should this be here?
     NSLog(@"turn: %d", canMakeTurn);
-    if (canMakeTurn) {
-        self.gameStatus.text = @"It is your turn!";
-    }
-    else if (!canMakeTurn) {
-        self.gameStatus.text = @"It is opponents turn!";
-    }
     NSLog(@"[%d][%d][%d]", board[0], board[1], board[2]);
     NSLog(@"[%d][%d][%d]", board[3], board[4], board[5]);
     NSLog(@"[%d][%d][%d]", board[6], board[7], board[8]);
@@ -254,7 +246,6 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
         NSLog(@"Just added o to array");
         NSLog(@"o count: %lu",(unsigned long)[oPieces count]);
         //NSLog(@"%@---%d",temp, _canMakeTurn);
-        [self endTurn];
     });
 }
 
@@ -267,13 +258,15 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
     glClear(GL_COLOR_BUFFER_BIT);
     
     [_gameBoard drawBoard];  // draw the game board to screen
-    /*
-    if ([self myTurn] && !_over) {
+    
+    if (canMakeTurn && !_over) {
         self.gameStatus.text = @"It is X's turn!";
     }
     else if (!_over) {
         self.gameStatus.text = @"It is O's turn!";
-    }*/
+    }
+    
+    [self endTurn];
     
     for (XPiece *piece in xPieces) {
         [piece drawXPieceOnBoard];
