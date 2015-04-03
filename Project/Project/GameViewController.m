@@ -287,18 +287,20 @@ int board[9] = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board posit
     if (!_over) {  // if the game is NOT over
         
         if ([session.connectedPeers count] == 0 && [self positionIsFree:cell]) {  // pass and play multiplayer
-            
+
             if (_localTurn) {  // starting a game, O is first
+                self.gameStatus.text = @"It is your turn!";
                 OPiece *temp = [[OPiece alloc] initWithSize:(size.width/3)+40 xPosition:[_gameBoard getXPosForCell:cell] yPosition:size.height-[_gameBoard getYPosForCell:cell]];
                 [_oPieces addObject:temp];
                 [self setBoardPositionToNotFree:cell withXorO:-1];
             }
             else {
+                self.gameStatus.text = @"It is opponents turn!";
                 XPiece *temp = [[XPiece alloc] initWithWidth:(size.width/3)-20 height:(size.width/3)-20 xPosition:[_gameBoard getXPosForCell:cell] yPosition:size.height-[_gameBoard getYPosForCell:cell]];
                     [_xPieces addObject:temp];
                 [self setBoardPositionToNotFree:cell withXorO:1];
             }
-            _localTurn = !_localTurn;  // negate because its local
+            _localTurn = !_localTurn;  // negate because its pass and play
             [self endTurn];  /*   ?   */
         }
         else if ([self positionIsFree:cell]) {  // LAN multiplayer
