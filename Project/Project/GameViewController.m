@@ -67,12 +67,12 @@
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     
     _gameBoard = [[Board alloc] initWithWidth:view.bounds.size.width height:view.bounds.size.height];
-    
+    dispatch_async(dispatch_get_main_queue(), ^{
     XPiece *temp = [[XPiece alloc] initWithWidth:0 height:0 xPosition:0 yPosition:0];
     [xPieces addObject:temp];
     OPiece *temp2 = [[OPiece alloc] initWithSize:0 xPosition:0 yPosition:0];
     [oPieces addObject:temp2];
-    
+    });
     //canMakeTurn = YES;            /* should this be set to yes upon load? */
     _localTurn = YES;  // logical
     
@@ -217,11 +217,13 @@
 
 /* Resets array back to 0's and removes O and X Piece objects from arrays */
 - (void)clearAll {
+    dispatch_async(dispatch_get_main_queue(), ^{
     for (int i = 0; i < 9; i++) {
         board[i] = 0;
     }
     [oPieces removeAllObjects];
     [xPieces removeAllObjects];
+    });
     over = NO;
     NSLog(@"%d", [oPieces count]);
 }
@@ -238,8 +240,10 @@
 - (void)setTurn:(BOOL)turn {
     canMakeTurn = turn;  // should this be here?
     NSLog(@"turn: %d", canMakeTurn);
+    dispatch_async(dispatch_get_main_queue(), ^{
     XPiece *temp = [[XPiece alloc] initWithWidth:0 height:0 xPosition:0 yPosition:1];
     [xPieces addObject:temp];
+    });
 }
 
 /* creates O object and places it in array to be drawn in function below */
@@ -303,16 +307,20 @@
 
             if (_localTurn) {  // starting a game, O is first
                 self.gameStatus.text = @"It is your turn!";
+                dispatch_async(dispatch_get_main_queue(), ^{
                 OPiece *temp = [[OPiece alloc] initWithSize:(size.width/3)+40 xPosition:[_gameBoard getXPosForCell:cell] yPosition:size.height-[_gameBoard getYPosForCell:cell]];
                 [oPieces addObject:temp];
+                });
                 NSLog(@"Just added o to array");
                 NSLog(@"o count: %lu",(unsigned long)[oPieces count]);
                 [self setBoardPositionToNotFree:cell withXorO:-1];
             }
             else {
                 self.gameStatus.text = @"It is opponents turn!";
+                dispatch_async(dispatch_get_main_queue(), ^{
                 XPiece *temp = [[XPiece alloc] initWithWidth:(size.width/3)-20 height:(size.width/3)-20 xPosition:[_gameBoard getXPosForCell:cell] yPosition:size.height-[_gameBoard getYPosForCell:cell]];
                 [xPieces addObject:temp];
+                });
                 NSLog(@"Just added x to array");
                 NSLog(@"x count: %lu",(unsigned long)[xPieces count]);
                 [self setBoardPositionToNotFree:cell withXorO:1];
@@ -323,8 +331,10 @@
         else if ([self positionIsFree:cell]) {  // LAN multiplayer
             
             [self setBoardPositionToNotFree:cell withXorO:1];
+            dispatch_async(dispatch_get_main_queue(), ^{
             XPiece *temp = [[XPiece alloc] initWithWidth:(size.width/3)-20 height:(size.width/3)-20 xPosition:[_gameBoard getXPosForCell:cell] yPosition:size.height-[_gameBoard getYPosForCell:cell]];
             [xPieces addObject:temp];
+            });
             NSLog(@"Just added x to array");
             NSLog(@"x count: %lu",(unsigned long)[xPieces count]);
             [self setTurn:NO];
