@@ -225,7 +225,9 @@ MCSession *session;
     }
     else if ([str isEqualToString:@"clear"]) {
         NSLog(@"AAA");
-        [self.gvc clearAll];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.gvc clearAll];
+        });
         //[GameViewController clearAll];
     }
 }

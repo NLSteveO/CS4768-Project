@@ -341,7 +341,9 @@
         [session sendData:[str dataUsingEncoding:NSASCIIStringEncoding]
                   toPeers:session.connectedPeers
                  withMode:MCSessionSendDataReliable error:nil];
+        dispatch_async(dispatch_get_main_queue(), ^{
         [self clearAll];
+        });
     }
 }
 
