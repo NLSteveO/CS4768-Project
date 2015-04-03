@@ -201,11 +201,11 @@ MCSession *session;
             int opponentNumber = [str intValue];
             if (_number > opponentNumber) {
                 NSLog(@"Our turn");
-                [self.gvc setTurn: YES];
+                [_gvc setTurn: YES];
             }
             else if (_number < opponentNumber) {
                 NSLog(@"Their turn");
-                [self.gvc setTurn: NO];
+                [_gvc setTurn: NO];
             }
             else {
                 _number = arc4random();

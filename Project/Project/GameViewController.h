@@ -9,8 +9,14 @@
 #import <UIKit/UIKit.h>
 #import <GLKit/GLKit.h>
 
-@interface GameViewController : GLKViewController
+static BOOL canMakeTurn;
+static NSMutableArray *oPieces;
+static NSMutableArray *xPieces;
 
+@interface GameViewController : GLKViewController {
+}
+
++ (void)initialize;
 - (void)setTurn:(BOOL)turn;
 - (void)recieveMove:(int)cell;
 
