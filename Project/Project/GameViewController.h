@@ -19,7 +19,6 @@ static NSMutableArray *xPieces;
 }
 
 + (void)initialize;
-//+ (void)clearAll;
 - (void)setTurn:(BOOL)turn;
 - (void)recieveMove:(int)cell;
 - (void)clearAll;

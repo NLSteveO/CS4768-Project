@@ -18,12 +18,9 @@
 }
 
 @property (strong, nonatomic) EAGLContext *context;
-//@property (strong, nonatomic) NSMutableArray *xPieces;
-//@property (strong, nonatomic) NSMutableArray *oPieces;
 @property (weak, nonatomic) IBOutlet UILabel *gameStatus;
 @property Board *gameBoard;
 @property BOOL over;  // denotes whether the game is over
-//@property (nonatomic) BOOL canMakeTurn;  // denotes whether the player can make a move
 @property BOOL localTurn;
 - (void)setupGL;
 - (void)tearDownGL;
@@ -39,8 +36,6 @@
  * board is available or not. * 1 indicates not free and occupied by X; 0 indicates free;
  * -1 indicates not free and occupied by O *
  */
-//oard = {0,0,0,0,0,0,0,0,0};  // array for checking whether a board position is free
-//static bool canMakeTurn;
 
 + (void)initialize {
     canMakeTurn = YES;
@@ -50,6 +45,7 @@
         board[i] = 0;
     }
     over = NO;
+    
 }
 
 - (void)viewDidLoad
@@ -73,7 +69,6 @@
     OPiece *temp2 = [[OPiece alloc] initWithSize:0 xPosition:0 yPosition:0];
     [oPieces addObject:temp2];
     });
-    //canMakeTurn = YES;            /* should this be set to yes upon load? */
     _localTurn = YES;  // logical
     
     if ([session.connectedPeers count] == 0) {
@@ -81,6 +76,7 @@
     }
     
     [self setupGL];
+    
 }
 
 - (void)dealloc
@@ -141,9 +137,9 @@
 
 /* checks whether a board position is free or not */
 - (BOOL) positionIsFree: (int)cell {
-    
     return board[cell] == 0;
 }
+
 /* sets an array index, mimicing the game board, to 0, -1, or 1 (depending on X, O or free) */
 - (void)setBoardPositionToNotFree: (int)cell withXorO: (int)val {
     board[cell] = val;
@@ -195,11 +191,21 @@
         self.gameStatus.text = @"Game over - tie! Tap to clear!";
         over = YES;
     }
-    if (canMakeTurn && !over) {
-        self.gameStatus.text = @"It is your turn!";
+    if ([session.connectedPeers count] > 0 ) {
+        if (canMakeTurn && !over) {
+            self.gameStatus.text = @"It is your turn!";
+        }
+        else if (!over) {
+            self.gameStatus.text = @"It is their turn!";
+        }
     }
-    else if (!over) {
-        self.gameStatus.text = @"It is opponents turn!";
+    else {
+        if (_localTurn && !over) {
+            self.gameStatus.text = @"It is X's turn!";
+        }
+        else if (!over) {
+            self.gameStatus.text = @"It is O's turn!";
+        }
     }
 }
 
@@ -218,44 +224,34 @@
 /* Resets array back to 0's and removes O and X Piece objects from arrays */
 - (void)clearAll {
     dispatch_async(dispatch_get_main_queue(), ^{
-    for (int i = 0; i < 9; i++) {
-        board[i] = 0;
-    }
-    [oPieces removeAllObjects];
-    [xPieces removeAllObjects];
+        for (int i = 0; i < 9; i++) {
+            board[i] = 0;
+        }
+        [oPieces removeAllObjects];
+        [xPieces removeAllObjects];
     });
     over = NO;
-    NSLog(@"%d", [oPieces count]);
 }
-
-/*+ (void)clearAll {
-    for (int i = 0; i < 9; i++) {
-        board[i] = 0;
-    }
-    [oPieces removeAllObjects];
-    [xPieces removeAllObjects];
-}*/
 
 /* sets a value for turn and updates game status label */
 - (void)setTurn:(BOOL)turn {
-    canMakeTurn = turn;  // should this be here?
-    NSLog(@"turn: %d", canMakeTurn);
     dispatch_async(dispatch_get_main_queue(), ^{
-    XPiece *temp = [[XPiece alloc] initWithWidth:0 height:0 xPosition:0 yPosition:1];
-    [xPieces addObject:temp];
+    canMakeTurn = turn;
+    if (canMakeTurn && !over) {
+        self.gameStatus.text = @"It is your turn!";
+    }
+    else if (!over) {
+        self.gameStatus.text = @"It is their turn!";
+    }
     });
 }
 
 /* creates O object and places it in array to be drawn in function below */
 - (void)recieveMove:(int)cell {
     dispatch_async(dispatch_get_main_queue(), ^{
-        //NSLog(@"HI---%d", cell);
         [self setBoardPositionToNotFree:cell withXorO:-1];
         OPiece *temp = [[OPiece alloc] initWithSize:(self.view.bounds.size.width/3)+40 xPosition:[_gameBoard getXPosForCell:cell] yPosition:self.view.bounds.size.height-[_gameBoard getYPosForCell:cell]];
         [oPieces addObject:temp];
-        NSLog(@"Just added o to array");
-        NSLog(@"o count: %lu",(unsigned long)[oPieces count]);
-        //NSLog(@"%@---%d",temp, _canMakeTurn);
     });
 }
 
@@ -269,13 +265,6 @@
     
     [_gameBoard drawBoard];  // draw the game board to screen
     
-    if (canMakeTurn && !over) {
-        self.gameStatus.text = @"It is your turn!";
-    }
-    else if (!over) {
-        self.gameStatus.text = @"It is their turn!";
-    }
-    
     [self endTurn];
     
     for (XPiece *piece in xPieces) {
@@ -286,10 +275,6 @@
     }
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    
-}
-
 /* called when a user lifts finger from the screen, where game piece will be drawn */
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     
@@ -298,61 +283,51 @@
     CGSize size = self.view.bounds.size;
     int cell = [_gameBoard getCellFromX:pos.x Y:pos.y];
     
-    //NSLog(@"Touch ended at: %f,%f --- %d", pos.x, pos.y, cell);
-    //NSLog(@"%@", session.connectedPeers);
-    NSLog(@"Turn: %d", canMakeTurn);
     if (canMakeTurn && !over) {  // if the game is NOT over
         
         if ([session.connectedPeers count] == 0 && [self positionIsFree:cell]) {  // pass and play multiplayer
 
-            if (_localTurn) {  // starting a game, O is first
+            if (_localTurn) {  // starting a game, X is first but loser is first for each following game
                 self.gameStatus.text = @"It is your turn!";
                 dispatch_async(dispatch_get_main_queue(), ^{
-                OPiece *temp = [[OPiece alloc] initWithSize:(size.width/3)+40 xPosition:[_gameBoard getXPosForCell:cell] yPosition:size.height-[_gameBoard getYPosForCell:cell]];
-                [oPieces addObject:temp];
+                    XPiece *temp = [[XPiece alloc] initWithWidth:(size.width/3)-20 height:(size.width/3)-20 xPosition:[_gameBoard getXPosForCell:cell] yPosition:size.height-[_gameBoard getYPosForCell:cell]];
+                    [xPieces addObject:temp];
                 });
-                NSLog(@"Just added o to array");
-                NSLog(@"o count: %lu",(unsigned long)[oPieces count]);
-                [self setBoardPositionToNotFree:cell withXorO:-1];
+                [self setBoardPositionToNotFree:cell withXorO:1];
             }
             else {
                 self.gameStatus.text = @"It is opponents turn!";
                 dispatch_async(dispatch_get_main_queue(), ^{
-                XPiece *temp = [[XPiece alloc] initWithWidth:(size.width/3)-20 height:(size.width/3)-20 xPosition:[_gameBoard getXPosForCell:cell] yPosition:size.height-[_gameBoard getYPosForCell:cell]];
-                [xPieces addObject:temp];
+                    OPiece *temp = [[OPiece alloc] initWithSize:(size.width/3)+40 xPosition:[_gameBoard getXPosForCell:cell] yPosition:size.height-[_gameBoard getYPosForCell:cell]];
+                    [oPieces addObject:temp];
                 });
-                NSLog(@"Just added x to array");
-                NSLog(@"x count: %lu",(unsigned long)[xPieces count]);
-                [self setBoardPositionToNotFree:cell withXorO:1];
+                [self setBoardPositionToNotFree:cell withXorO:-1];
             }
             _localTurn = !_localTurn;  // negate because its pass and play
-            [self endTurn];  /*   ?   */
+            [self endTurn];
         }
         else if ([self positionIsFree:cell]) {  // LAN multiplayer
             
             [self setBoardPositionToNotFree:cell withXorO:1];
             dispatch_async(dispatch_get_main_queue(), ^{
-            XPiece *temp = [[XPiece alloc] initWithWidth:(size.width/3)-20 height:(size.width/3)-20 xPosition:[_gameBoard getXPosForCell:cell] yPosition:size.height-[_gameBoard getYPosForCell:cell]];
-            [xPieces addObject:temp];
+                XPiece *temp = [[XPiece alloc] initWithWidth:(size.width/3)-20 height:(size.width/3)-20 xPosition:[_gameBoard getXPosForCell:cell] yPosition:size.height-[_gameBoard getYPosForCell:cell]];
+                [xPieces addObject:temp];
             });
-            NSLog(@"Just added x to array");
-            NSLog(@"x count: %lu",(unsigned long)[xPieces count]);
-            [self setTurn:NO];
-            //_canMakeTurn = NO;  // set local var _canMakeTurn to false to wait for other player to make a turn
-            [self endTurn];  /*   ?    */
+            [self setTurn:NO]; // set local var _canMakeTurn to false to wait for other player to make a turn
+            [self endTurn];
             NSString *str = [NSString stringWithFormat:@"g:%d", cell];
             [session sendData:[str dataUsingEncoding:NSASCIIStringEncoding]
                       toPeers:session.connectedPeers
                      withMode:MCSessionSendDataReliable error:nil];
         }
     }
-    else if (over) {  // my have to move this to the second else if of outer if conditional
+    else if (over) {
         NSString *str = [NSString stringWithFormat:@"clear"];
         [session sendData:[str dataUsingEncoding:NSASCIIStringEncoding]
                   toPeers:session.connectedPeers
                  withMode:MCSessionSendDataReliable error:nil];
         dispatch_async(dispatch_get_main_queue(), ^{
-        [self clearAll];
+            [self clearAll];
         });
     }
 }
