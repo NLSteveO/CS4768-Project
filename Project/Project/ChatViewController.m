@@ -9,7 +9,8 @@
 //  delegate functions (noted below), the sending/receiving of messages and game
 //  data using a prefix to differentiate between the data for each feature. These
 //  include the chat and game feature, and are denoted by the prefix "c" for chat,
-//  or "g" for game data.
+//  or "g" for game data. Note that a random number is set below to determine
+//  which player goes first; 
 //
 
 #import <Foundation/Foundation.h>
@@ -31,8 +32,8 @@
 @property (strong, nonatomic) MCAdvertiserAssistant *assistant;
 @property (strong, nonatomic) MCBrowserViewController *browserVC;
 
-@property int number;
-@property GameViewController *gvc;
+@property int number;  // stores local random number set below to determine first player
+@property GameViewController *gvc;  // used to call the clearAll function in GameViewController
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField;
 - (IBAction)sendButtonTapped:(UIButton *)sender;
@@ -48,7 +49,7 @@
 
 @implementation ChatViewController
 
-MCSession *session;
+MCSession *session;  // the same session used in GameViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -147,7 +148,6 @@ MCSession *session;
 
 #pragma mark
 #pragma mark <MCBrowserViewControllerDelegate> methods
-
 - (void)browserViewControllerDidFinish:(MCBrowserViewController *)browserViewController
 {
     [browserViewController dismissViewControllerAnimated:YES completion:nil];
@@ -194,14 +194,15 @@ MCSession *session;
         str = [str substringFromIndex:2];
         NSString *tempStr = [NSString stringWithFormat:@"%@\n%@:\n%@\n",
                          self.textView.text, peerID.displayName, str];
+        // update immediately
         dispatch_async(dispatch_get_main_queue(), ^{
             self.textView.text = tempStr;
         });
     }
-    else if ([str hasPrefix:@"s:"]) {
+    else if ([str hasPrefix:@"s:"]) {  // s indicates which player starts first
         str = [str substringFromIndex:2];
         dispatch_async(dispatch_get_main_queue(), ^{
-            int opponentNumber = [str intValue];
+            int opponentNumber = [str intValue];  // random number used to determine first player
             if (_number > opponentNumber) {
                 [_gvc setTurn: YES];
             }
@@ -218,13 +219,13 @@ MCSession *session;
             }
         });
     }
-    else if ([str hasPrefix:@"g:"]) {
+    else if ([str hasPrefix:@"g:"]) {  // game data
         str = [str substringFromIndex:2];
         [self.gvc setTurn:YES];
         [self.gvc recieveMove:[str intValue]];
 
     }
-    else if ([str isEqualToString:@"clear"]) {
+    else if ([str isEqualToString:@"clear"]) {  // clear and reset game
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.gvc clearAll];
         });
