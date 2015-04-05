@@ -5,6 +5,12 @@
 //  Created by Stephen Douglas O'Keefe & Ryan Martin on 2015-03-28.
 //  Copyright (c) 2015 NLSteveO & Ryan Martin. All rights reserved.
 //
+//  This class handles the multipeer connectivity for connecting devices using
+//  delegate functions (noted below), the sending/receiving of messages and game
+//  data using a prefix to differentiate between the data for each feature. These
+//  include the chat and game feature, and are denoted by the prefix "c" for chat,
+//  or "g" for game data.
+//
 
 #import <Foundation/Foundation.h>
 #import "ChatViewController.h"
@@ -119,7 +125,7 @@ MCSession *session;
         [self.textInput resignFirstResponder];
         // echo in the local text view
         str = [str substringFromIndex:2];
-        self.textView.text = [NSString stringWithFormat:@"%@\n> %@", self.textView.text, str];
+        self.textView.text = [NSString stringWithFormat:@"%@\nYou:\n%@\n", self.textView.text, str];
     }
 }
 
@@ -184,13 +190,10 @@ MCSession *session;
     
     NSString *str = [[NSString alloc] initWithData:data
                                           encoding:NSASCIIStringEncoding];
-    NSLog(@"Received data: %@", str);
     if ([str hasPrefix:@"c:"]) {
         str = [str substringFromIndex:2];
-        NSString *tempStr = [NSString stringWithFormat:@"%@\nMsg from %@: %@",
-                         self.textView.text,
-                         peerID.displayName,
-                         str];
+        NSString *tempStr = [NSString stringWithFormat:@"%@\n%@:\n%@\n",
+                         self.textView.text, peerID.displayName, str];
         dispatch_async(dispatch_get_main_queue(), ^{
             self.textView.text = tempStr;
         });
@@ -200,11 +203,9 @@ MCSession *session;
         dispatch_async(dispatch_get_main_queue(), ^{
             int opponentNumber = [str intValue];
             if (_number > opponentNumber) {
-                NSLog(@"Our turn");
                 [_gvc setTurn: YES];
             }
             else if (_number < opponentNumber) {
-                NSLog(@"Their turn");
                 [_gvc setTurn: NO];
             }
             else {
@@ -224,11 +225,9 @@ MCSession *session;
 
     }
     else if ([str isEqualToString:@"clear"]) {
-        NSLog(@"AAA");
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.gvc clearAll];
         });
-        //[GameViewController clearAll];
     }
 }
 
