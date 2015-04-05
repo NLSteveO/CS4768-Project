@@ -361,8 +361,13 @@
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
     
     if (motion == UIEventSubtypeMotionShake && over) {  // resets game with shake
-        
-        [self clearAll];
+        NSString *str = [NSString stringWithFormat:@"clear"];
+        [session sendData:[str dataUsingEncoding:NSASCIIStringEncoding]
+                  toPeers:session.connectedPeers
+                 withMode:MCSessionSendDataReliable error:nil];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self clearAll];
+        });
     }
 }
 
